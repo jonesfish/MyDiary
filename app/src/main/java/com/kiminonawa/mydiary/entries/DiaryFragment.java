@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kiminonawa.mydiary.R;
+import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
 
 
 public class DiaryFragment extends BaseEntriesFragment {
