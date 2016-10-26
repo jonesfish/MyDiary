@@ -27,12 +27,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
     private List<EntriesEntity> entriesList;
     private Context mContext;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-    private String[] days_name;
+    private String[] daysSimpleName;
 
     public EntriesAdapter(Context context, List<EntriesEntity> topicList) {
         this.mContext = context;
         this.entriesList = topicList;
-        days_name = mContext.getResources().getStringArray(R.array.days_name);
+        daysSimpleName = mContext.getResources().getStringArray(R.array.days_simple_name);
     }
 
 
@@ -54,7 +54,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(entriesList.get(position).getCreateDate());
         holder.getTVDate().setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        holder.getTVDay().setText(days_name[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
+        holder.getTVDay().setText(daysSimpleName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
         holder.getTVTime().setText(String.valueOf(dateFormat.format(calendar.getTime())));
         holder.getTVTitle().setText(entriesList.get(position).getTitle());
         holder.getTVSummary().setText(entriesList.get(position).getSummary());

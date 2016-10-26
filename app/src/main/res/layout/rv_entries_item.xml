@@ -107,6 +107,7 @@
                 android:id="@+id/TV_entries_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:text="東京ライフ2"
                 android:textColor="@color/entries_main_color"
                 android:textSize="14sp" />
@@ -116,6 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
                 android:text="I go to TOKY！"
                 android:textColor="@color/entries_main_color"
                 android:textSize="10sp" />

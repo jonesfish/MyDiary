@@ -25,7 +25,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="Taki"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/themeColor" />
+        android:background="@android:color/white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView_topic"
@@ -43,7 +43,23 @@
         android:layout_height="match_parent"
         android:layout_above="@id/RL_main_search"
         android:layout_below="@id/RL_main_profile"
-        android:layout_margin="30dp" />
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp" />
 
+    <View
+        android:id="@+id/profile_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height_5dp"
+        android:layout_below="@id/RL_main_profile"
+        android:background="@drawable/view_bottom_shadow" />
+
+    <View
+        android:id="@+id/search_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_height_3dp"
+        android:layout_above="@id/RL_main_search"
+        android:background="@drawable/view_top_shadow" />
 
 </RelativeLayout>

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.entries.BaseEntriesFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +35,17 @@ public class EntriesFragment extends BaseEntriesFragment {
         RecyclerView_entries = (RecyclerView) rootView.findViewById(R.id.RecyclerView_entries);
 
         entriesList = new ArrayList<>();
+        createTestData();
+
+        LinearLayoutManager lmr = new LinearLayoutManager(getActivity());
+        RecyclerView_entries.setLayoutManager(lmr);
+        entriesAdapter = new EntriesAdapter(getActivity(), entriesList);
+        RecyclerView_entries.setAdapter(entriesAdapter);
+
+        return rootView;
+    }
+
+    private void createTestData() {
         //Test data
         Date today = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -60,12 +70,6 @@ public class EntriesFragment extends BaseEntriesFragment {
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
         entriesList.add(0, new EntriesEntity(calendar.getTime(), "7 day", "QAQ", true));
 
-        LinearLayoutManager lmr = new LinearLayoutManager(getActivity());
-        RecyclerView_entries.setLayoutManager(lmr);
-        entriesAdapter = new EntriesAdapter(getActivity(), entriesList);
-        RecyclerView_entries.setAdapter(entriesAdapter);
-
-        return rootView;
     }
 
 }

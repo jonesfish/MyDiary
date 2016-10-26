@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         topicList.add(new Contacts("Important call number"));
         topicList.add(new Entries("Taki"));
         topicList.add(new Memo("Notice Memo"));
+        topicList.add(new Memo("Notice Memo2"));
+        topicList.add(new Memo("Notice Memo3"));
+        topicList.add(new Memo("Notice Memo4"));
+        topicList.add(new Memo("Notice Memo5"));
+        topicList.add(new Memo("Notice Memo6"));
 
         //Init topic adapter
         LinearLayoutManager lmr = new LinearLayoutManager(this);
