@@ -11,49 +11,57 @@
         android:weightSum="1">
 
         <LinearLayout
-            android:id="@+id/LL_calendar_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.7"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/TV_calendar_months"
+            <LinearLayout
+                android:id="@+id/LL_calendar_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="十二月"
-                android:textColor="@color/entries_main_color"
-                android:textSize="40sp" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
 
-            <TextView
-                android:id="@+id/TV_calendar_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="12"
-                android:textColor="@color/entries_main_color"
-                android:textSize="100sp"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/TV_calendar_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="星期一"
-                android:textColor="@color/entries_main_color"
-                android:textSize="25sp" />
+                <TextView
+                    android:id="@+id/TV_calendar_months"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/entries_main_color"
+                    android:textSize="40sp" />
 
+                <TextView
+                    android:id="@+id/TV_calendar_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/entries_main_color"
+                    android:textSize="100sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/TV_calendar_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/entries_main_color"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <View
             android:id="@+id/View_calendar_content_shadow"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/view_shadow" />
+            android:layout_height="@dimen/shadow_height_3dp"
+            android:background="@drawable/view_bottom_shadow" />
 
 
     </LinearLayout>

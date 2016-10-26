@@ -5,7 +5,9 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="top_bar_height">80dp</dimen>
-    <dimen name="top_bar_shadow_height">5dp</dimen>
+    <dimen name="shadow_height_7dp">7dp</dimen>
+    <dimen name="shadow_height_5dp">5dp</dimen>
+    <dimen name="shadow_height_3dp">3dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="radio_button_conner_radius">5dp</dimen>

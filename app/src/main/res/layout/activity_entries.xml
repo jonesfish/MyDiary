@@ -82,9 +82,9 @@
     <View
         android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_bar_shadow_height"
+        android:layout_height="@dimen/shadow_height_5dp"
         android:layout_below="@id/LL_entries_topbar_content"
-        android:background="@drawable/view_shadow" />
+        android:background="@drawable/view_bottom_shadow" />
 
 
 </RelativeLayout>
