@@ -47,8 +47,14 @@
                 android:textColor="@color/entries_main_color"
                 android:textSize="25sp" />
 
-
         </LinearLayout>
+
+        <View
+            android:id="@+id/View_calendar_content_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/view_shadow" />
+
 
     </LinearLayout>
 

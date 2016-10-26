@@ -32,6 +32,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
     private String[] monthsFullName;
     private String[] daysFullName;
     private int dateChange = 0;
+    //Temp value
     private int miniTouchGestureWidth = 120;
 
     /**
@@ -43,6 +44,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
      * UI
      */
     private LinearLayout LL_calendar_content;
+    private View View_calendar_content_shadow;
     private TextView TV_calendar_months, TV_calendar_date, TV_calendar_day;
 
     public CalendarFragment() {
@@ -66,6 +68,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
         View rootView = inflater.inflate(R.layout.fragment_cnlendar, container, false);
 
         LL_calendar_content = (LinearLayout) rootView.findViewById(R.id.LL_calendar_content);
+        View_calendar_content_shadow = rootView.findViewById(R.id.View_calendar_content_shadow);
         TV_calendar_months = (TextView) rootView.findViewById(R.id.TV_calendar_months);
         TV_calendar_date = (TextView) rootView.findViewById(R.id.TV_calendar_date);
         TV_calendar_day = (TextView) rootView.findViewById(R.id.TV_calendar_day);
@@ -95,6 +98,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
             fadeOutAm.reset();
             LL_calendar_content.clearAnimation();
             LL_calendar_content.startAnimation(fadeOutAm);
+            View_calendar_content_shadow.startAnimation(fadeOutAm);
         } catch (Resources.NotFoundException e) {
             Log.e("NotFoundException", e.toString());
         }
@@ -110,6 +114,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
             calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + dateChange);
             updateCalendar();
             LL_calendar_content.startAnimation(fadeInAm);
+            View_calendar_content_shadow.startAnimation(fadeInAm);
         }
     }
 
