@@ -10,6 +10,10 @@ import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
 
 
+/**
+ * This page doesn't be used in the movie.
+ */
+
 public class DiaryFragment extends BaseEntriesFragment {
 
 
