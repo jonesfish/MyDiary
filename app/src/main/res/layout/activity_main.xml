@@ -33,7 +33,7 @@
     <RelativeLayout
         android:id="@+id/RL_main_search"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/bottom_bar_height"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white" />
 
