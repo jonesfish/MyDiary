@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.kiminonawa.mydiary.R;
+import com.kiminonawa.mydiary.entries.calendar.CalendarFragment;
 import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
 import com.kiminonawa.mydiary.entries.entries.EntriesFragment;
 
