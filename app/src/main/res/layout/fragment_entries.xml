@@ -5,7 +5,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/RL_main_edit_bar"
+        android:id="@+id/RL_entries_edit_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_alignParentBottom="true"
@@ -51,17 +51,17 @@
 
 
     <View
-        android:id="@+id/search_shadow"
+        android:id="@+id/entries_edit_bar_shadow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/shadow_height_3dp"
-        android:layout_above="@id/RL_main_edit_bar"
+        android:layout_above="@id/RL_entries_edit_bar"
         android:background="@drawable/view_top_shadow" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView_entries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/RL_main_edit_bar"
+        android:layout_above="@id/RL_entries_edit_bar"
         android:padding="15dp" />
 
 </RelativeLayout>

@@ -88,10 +88,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_bookmark = (ImageView) rootView.findViewById(R.id.IV_entries_item_bookmark);
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
             //Set color filiter
-            IV_entries_item_weather.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_mood.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_bookmark.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_attachment.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_weather.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_mood.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_bookmark.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_attachment.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
         }
 
         public TextView getTVDate() {
