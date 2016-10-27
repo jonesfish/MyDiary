@@ -4,7 +4,7 @@
     android:background="@android:color/white">
 
     <LinearLayout
-        android:id="@+id/RL_diary_time_information"
+        android:id="@+id/LL_diary_time_information"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/themeColor"
@@ -95,6 +95,25 @@
             android:layout_toRightOf="@id/IV_diary_photo"
             android:src="@drawable/ic_delete_white_24dp" />
 
+        <ImageView
+            android:id="@+id/IV_diary_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@id/IV_diary_photo"
+            android:src="@drawable/ic_clear_white_24dp" />
+
+        <ImageView
+            android:id="@+id/IV_diary_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@id/IV_diary_clear"
+            android:src="@drawable/ic_save_white_24dp" />
+
+
     </RelativeLayout>
 
 
@@ -110,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/RL_diary_edit_bar"
-        android:layout_below="@id/RL_diary_time_information"
+        android:layout_below="@id/LL_diary_time_information"
         android:fillViewport="true"
         android:padding="5dp">
 
@@ -122,11 +141,13 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/EDT_diary_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="title" />
 
             <EditText
+                android:id="@+id/EDT_diary_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
