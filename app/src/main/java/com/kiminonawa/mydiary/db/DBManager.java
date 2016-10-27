@@ -39,17 +39,26 @@ public class DBManager {
      * Diary
      */
 
-    public long insetDiary(String title, String content, long time,
+    public long insetDiary(long time, String title, String content,
                            int mood, int weather, boolean attachment) {
         return db.insert(
                 DiaryEntry.TABLE_NAME,
                 null,
-                this.createDiaryCV(title, content, time,
+                this.createDiaryCV(time, title, content,
                         mood, weather, attachment));
     }
 
     public Cursor selectDiary() {
-        Cursor c = db.query(DiaryEntry.TABLE_NAME, null, null, null, null, null, null);
+        Cursor c = db.query(DiaryEntry.TABLE_NAME, null, null, null, null, null,
+                DiaryEntry.COLUMN_TIME + " DESC");
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    public Cursor selectDiaryByDiaryId(long diaryId) {
+        Cursor c = db.query(DiaryEntry.TABLE_NAME, null, DiaryEntry._ID + " = ?", new String[]{String.valueOf(diaryId)}, null, null, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -57,7 +66,7 @@ public class DBManager {
     }
 
 
-    private ContentValues createDiaryCV(String title, String content, long time,
+    private ContentValues createDiaryCV(long time, String title, String content,
                                         int mood, int weather, boolean attachment) {
         ContentValues values = new ContentValues();
         values.put(DiaryEntry.COLUMN_TITLE, title);

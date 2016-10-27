@@ -144,7 +144,9 @@
                 android:id="@+id/EDT_diary_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="title" />
+                android:inputType="textCapCharacters"
+                android:hint="title"
+                android:maxLines="1" />
 
             <EditText
                 android:id="@+id/EDT_diary_content"

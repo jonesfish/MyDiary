@@ -114,8 +114,9 @@ public class DiaryFragment extends BaseEntriesFragment implements View.OnClickLi
     private void saveDiary() {
         DBManager dbManager = new DBManager(getActivity());
         dbManager.opeDB();
-        dbManager.insetDiary(EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
-                calendar.getTimeInMillis(), 0, 0, false);
+        dbManager.insetDiary(calendar.getTimeInMillis(),
+                EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
+                0, 0, false);
         dbManager.closeDB();
         clearDiary();
     }

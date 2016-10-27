@@ -1,7 +1,7 @@
 package com.kiminonawa.mydiary.entries.entries;
 
-import android.content.Context;
 import android.graphics.PorterDuff;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +25,14 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
 
 
     private List<EntriesEntity> entriesList;
-    private Context mContext;
+    private Fragment mFragment;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
     private String[] daysSimpleName;
 
-    public EntriesAdapter(Context context, List<EntriesEntity> topicList) {
-        this.mContext = context;
+    public EntriesAdapter(Fragment fragment, List<EntriesEntity> topicList) {
+        this.mFragment = fragment;
         this.entriesList = topicList;
-        daysSimpleName = mContext.getResources().getStringArray(R.array.days_simple_name);
+        daysSimpleName = mFragment.getResources().getStringArray(R.array.days_simple_name);
     }
 
 
@@ -65,6 +65,15 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             holder.getIVAttachment().setVisibility(View.GONE);
         }
 
+        holder.getRootView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DiaryViewerDialogFragment diaryViewerDialog =
+                        DiaryViewerDialogFragment.newInstance(entriesList.get(position).getId());
+                diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
+            }
+        });
+
     }
 
     protected class EntriesViewHolder extends RecyclerView.ViewHolder {
@@ -88,10 +97,10 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_bookmark = (ImageView) rootView.findViewById(R.id.IV_entries_item_bookmark);
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
             //Set color filiter
-            IV_entries_item_weather.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_mood.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_bookmark.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_attachment.setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_weather.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_mood.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_bookmark.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+            IV_entries_item_attachment.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
         }
 
         public TextView getTVDate() {

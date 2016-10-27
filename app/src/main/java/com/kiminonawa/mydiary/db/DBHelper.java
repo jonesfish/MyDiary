@@ -29,9 +29,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DiaryEntry.TABLE_NAME + " (" +
                     DiaryEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT," +
+                    DiaryEntry.COLUMN_TIME + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_CONTENT + TEXT_TYPE + COMMA_SEP +
-                    DiaryEntry.COLUMN_TIME + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_MOOD + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_WEATHER + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_ATTACHMENT + INTEGER_TYPE +

@@ -8,17 +8,23 @@ import java.util.Date;
 
 public class EntriesEntity {
 
+    private long id;
     private Date createDate;
     private String title;
     private String summary;
     private boolean hasAttachment;
 
 
-    public EntriesEntity(Date createDate, String title, String summary, boolean hasAttachment) {
+    public EntriesEntity(long id, Date createDate, String title, String summary, boolean hasAttachment) {
+        this.id = id;
         this.createDate = createDate;
         this.title = title;
         this.summary = summary;
         this.hasAttachment = hasAttachment;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public Date getCreateDate() {
