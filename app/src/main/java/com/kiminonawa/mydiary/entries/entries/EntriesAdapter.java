@@ -26,10 +26,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
     private Fragment mFragment;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
     private String[] daysSimpleName;
+    private DiaryViewerDialogFragment.DiaryViewerCallback mDiaryViewerCallback;
 
-    public EntriesAdapter(Fragment fragment, List<EntriesEntity> topicList) {
+    public EntriesAdapter(Fragment fragment, List<EntriesEntity> topicList, DiaryViewerDialogFragment.DiaryViewerCallback callback) {
         this.mFragment = fragment;
         this.entriesList = topicList;
+        this.mDiaryViewerCallback = callback;
         daysSimpleName = mFragment.getResources().getStringArray(R.array.days_simple_name);
     }
 
@@ -68,6 +70,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             public void onClick(View v) {
                 DiaryViewerDialogFragment diaryViewerDialog =
                         DiaryViewerDialogFragment.newInstance(entriesList.get(position).getId());
+                diaryViewerDialog.setCallBack(mDiaryViewerCallback);
                 diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
             }
         });

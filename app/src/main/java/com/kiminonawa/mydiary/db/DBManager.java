@@ -80,6 +80,14 @@ public class DBManager {
                         mood, weather, attachment, refTopicId));
     }
 
+    public long delDiary(long diaryId) {
+        return db.delete(
+                DiaryEntry.TABLE_NAME,
+                DiaryEntry._ID + " = ?"
+                , new String[]{String.valueOf(diaryId)});
+    }
+
+
     public Cursor selectDiary(long topicId) {
         Cursor c = db.query(DiaryEntry.TABLE_NAME, null, DiaryEntry.COLUMN_REF_TOPIC__ID + " = ?", new String[]{String.valueOf(topicId)}, null, null,
                 DiaryEntry.COLUMN_TIME + " DESC", null);

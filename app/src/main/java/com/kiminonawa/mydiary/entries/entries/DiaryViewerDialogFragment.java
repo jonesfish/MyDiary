@@ -22,9 +22,27 @@ import com.kiminonawa.mydiary.db.DBManager;
 
 public class DiaryViewerDialogFragment extends DialogFragment implements View.OnClickListener {
 
+
+    /**
+     * Callback
+     */
+    public interface DiaryViewerCallback {
+        void deleteDiary();
+    }
+
+    private DiaryViewerCallback callback;
+
+
+    /**
+     * UI
+     */
     private EditText EDT_diary_title, EDT_diary_content;
     private ImageView IV_diary_delete, IV_diary_clear, IV_diary_save;
 
+    /**
+     * Info
+     */
+    private long diaryId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +70,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            long diaryId = getArguments().getLong("diaryId", -1L);
+            diaryId = getArguments().getLong("diaryId", -1L);
             if (diaryId != -1) {
                 DBManager dbManager = new DBManager(getActivity());
                 dbManager.opeDB();
@@ -77,7 +95,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         EDT_diary_content = (EditText) rootView.findViewById(R.id.EDT_diary_content);
 
 
-        IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
+        IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_delete);
         IV_diary_delete.setOnClickListener(this);
         IV_diary_clear = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
         IV_diary_clear.setVisibility(View.GONE);
@@ -92,8 +110,28 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         return rootView;
     }
 
+    public void setCallBack(DiaryViewerCallback callback) {
+        this.callback = callback;
+    }
+
+
+    private void deleteDiary() {
+        DBManager dbManager = new DBManager(getActivity());
+        dbManager.opeDB();
+        dbManager.delDiary(diaryId);
+        dbManager.closeDB();
+    }
+
     @Override
     public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.IV_diary_delete:
+                deleteDiary();
+                callback.deleteDiary();
+                dismiss();
+                break;
+        }
 
     }
 }

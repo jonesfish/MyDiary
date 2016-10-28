@@ -12,8 +12,8 @@ import android.widget.RadioGroup;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.calendar.CalendarFragment;
-import com.kiminonawa.mydiary.entries.entries.BaseDiaryFragment;
-import com.kiminonawa.mydiary.entries.entries.DiaryFragment;
+import com.kiminonawa.mydiary.entries.diary.DiaryFragment;
+import com.kiminonawa.mydiary.entries.entries.EntriesFragment;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -43,14 +43,14 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         setContentView(R.layout.activity_diary);
 
         topicId = getIntent().getLongExtra("topicId", -1);
-        if (topicId == -1){
+        if (topicId == -1) {
             //TODO close this activity and show toast
         }
 
         /**
          * Init Viewpager
          */
-            ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
+        ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         ViewPager_diary_content.setAdapter(mPagerAdapter);
         ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
@@ -71,6 +71,10 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
 
     public long getTopicId() {
         return topicId;
+    }
+
+    public void gotoPage(int postion) {
+        ViewPager_diary_content.setCurrentItem(postion);
     }
 
     public void popTopBar() {
@@ -122,13 +126,13 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
             BaseDiaryFragment fragment;
             switch (position) {
                 default:
-                    fragment = new DiaryFragment();
+                    fragment = new EntriesFragment();
                     break;
                 case 1:
                     fragment = new CalendarFragment();
                     break;
                 case 2:
-                    fragment = new com.kiminonawa.mydiary.entries.diary.DiaryFragment();
+                    fragment = new DiaryFragment();
                     break;
             }
             return fragment;

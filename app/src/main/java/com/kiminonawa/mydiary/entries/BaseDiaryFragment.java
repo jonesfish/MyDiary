@@ -1,10 +1,8 @@
-package com.kiminonawa.mydiary.entries.entries;
+package com.kiminonawa.mydiary.entries;
 
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
-
-import com.kiminonawa.mydiary.entries.DiaryActivity;
 
 
 public class BaseDiaryFragment extends Fragment {

@@ -12,18 +12,20 @@ import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
+import com.kiminonawa.mydiary.entries.BaseDiaryFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
-public class DiaryFragment extends BaseDiaryFragment {
+public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDialogFragment.DiaryViewerCallback {
 
     /**
      * UI
      */
     private TextView TV_entries_count;
+    private final static int MAX_TEXT_LENGTH = 15;
 
     /**
      * RecyclerView
@@ -32,7 +34,7 @@ public class DiaryFragment extends BaseDiaryFragment {
     private EntriesAdapter entriesAdapter;
     private List<EntriesEntity> entriesList;
 
-    public DiaryFragment() {
+    public EntriesFragment() {
         // Required empty public constructor
     }
 
@@ -49,18 +51,19 @@ public class DiaryFragment extends BaseDiaryFragment {
         loadEntries();
         initRecyclerView();
 
-        TV_entries_count.setText(entriesList.size() + " Entriers");
+        TV_entries_count.setText(entriesList.size() + " Entries");
         return rootView;
     }
 
     private void initRecyclerView() {
         LinearLayoutManager lmr = new LinearLayoutManager(getActivity());
         RecyclerView_entries.setLayoutManager(lmr);
-        entriesAdapter = new EntriesAdapter(DiaryFragment.this, entriesList);
+        entriesAdapter = new EntriesAdapter(EntriesFragment.this, entriesList, this);
         RecyclerView_entries.setAdapter(entriesAdapter);
     }
 
     private void loadEntries() {
+        entriesList.clear();
         DBManager dbManager = new DBManager(getActivity());
         dbManager.opeDB();
         Cursor diaryCursor = dbManager.selectDiary(getTopicId());
@@ -69,8 +72,8 @@ public class DiaryFragment extends BaseDiaryFragment {
             String content = diaryCursor.getString(3);
             entriesList.add(
                     new EntriesEntity(diaryCursor.getLong(0), new Date(diaryCursor.getLong(1)),
-                            title.substring(0, Math.min(30, title.length())),
-                            content.substring(0, Math.min(30, content.length())),
+                            title.substring(0, Math.min(MAX_TEXT_LENGTH, title.length())),
+                            content.substring(0, Math.min(MAX_TEXT_LENGTH, content.length())),
                             diaryCursor.getInt(6) > 0 ? true : false));
             diaryCursor.moveToNext();
         }
@@ -80,4 +83,9 @@ public class DiaryFragment extends BaseDiaryFragment {
     }
 
 
+    @Override
+    public void deleteDiary() {
+        loadEntries();
+        entriesAdapter.notifyDataSetChanged();
+    }
 }

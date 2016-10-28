@@ -10,10 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
-import com.kiminonawa.mydiary.entries.entries.BaseDiaryFragment;
+import com.kiminonawa.mydiary.entries.BaseDiaryFragment;
+import com.kiminonawa.mydiary.entries.DiaryActivity;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.text.SimpleDateFormat;
@@ -127,7 +129,12 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                 clearDiary();
                 break;
             case R.id.IV_diary_save:
-                saveDiary();
+                if (EDT_diary_title.length() > 0 && EDT_diary_content.length() > 0) {
+                    saveDiary();
+                    ((DiaryActivity) getActivity()).gotoPage(0);
+                } else {
+                    Toast.makeText(getActivity(), "Diary is empty!", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 
