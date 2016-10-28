@@ -1,6 +1,5 @@
 package com.kiminonawa.mydiary.entries.entries;
 
-import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.shared.ColorTools;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -96,11 +94,6 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_mood = (ImageView) rootView.findViewById(R.id.IV_entries_item_mood);
             this.IV_entries_item_bookmark = (ImageView) rootView.findViewById(R.id.IV_entries_item_bookmark);
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
-            //Set color filiter
-            IV_entries_item_weather.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_mood.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_bookmark.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_attachment.setColorFilter(ColorTools.getColor(mFragment.getActivity(), R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
         }
 
         public TextView getTVDate() {

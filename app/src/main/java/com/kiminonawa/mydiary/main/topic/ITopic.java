@@ -14,7 +14,7 @@ public interface ITopic {
     /**
      * Mitsuha and Taki write daily diary when their soul change.
      */
-    int TYPE_ENTRIES = 1;
+    int TYPE_DIARY = 1;
 
     /**
      * Mitsuha and Taki add some memo for notice that something can't do.
@@ -22,8 +22,12 @@ public interface ITopic {
     int TYPE_MEMO = 2;
 
     String getTitle();
+
     int getType();
+
     long getId();
-    @DrawableRes int getIcon();
+
+    @DrawableRes
+    int getIcon();
 
 }

@@ -2,7 +2,6 @@ package com.kiminonawa.mydiary.main;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,10 +15,9 @@ import android.widget.RelativeLayout;
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
 import com.kiminonawa.mydiary.main.topic.Contacts;
-import com.kiminonawa.mydiary.main.topic.Entries;
+import com.kiminonawa.mydiary.main.topic.Diary;
 import com.kiminonawa.mydiary.main.topic.ITopic;
 import com.kiminonawa.mydiary.main.topic.Memo;
-import com.kiminonawa.mydiary.shared.ColorTools;
 import com.kiminonawa.mydiary.shared.ViewTools;
 
 import java.util.ArrayList;
@@ -61,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         IV_main_setting = (ImageView) findViewById(R.id.IV_main_setting);
         IV_main_setting.setOnClickListener(this);
-        IV_main_setting.setColorFilter(ColorTools.getColor(MainActivity.this, R.color.themeColor), PorterDuff.Mode.SRC_ATOP);
 
         RecyclerView_topic = (RecyclerView) findViewById(R.id.RecyclerView_topic);
 
@@ -84,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     topicList.add(
                             new Contacts(topicCursor.getLong(0), topicCursor.getString(1)));
                     break;
-                case ITopic.TYPE_ENTRIES:
+                case ITopic.TYPE_DIARY:
                     topicList.add(
-                            new Entries(topicCursor.getLong(0), topicCursor.getString(1)));
+                            new Diary(topicCursor.getLong(0), topicCursor.getString(1)));
                     break;
                 case ITopic.TYPE_MEMO:
                     topicList.add(

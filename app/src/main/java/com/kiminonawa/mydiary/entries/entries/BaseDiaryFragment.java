@@ -4,24 +4,24 @@ package com.kiminonawa.mydiary.entries.entries;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
-import com.kiminonawa.mydiary.entries.EntriesActivity;
+import com.kiminonawa.mydiary.entries.DiaryActivity;
 
 
-public class BaseEntriesFragment extends Fragment {
+public class BaseDiaryFragment extends Fragment {
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        EntriesActivity activity;
-        if (context instanceof EntriesActivity) {
-            activity = (EntriesActivity) context;
+        DiaryActivity activity;
+        if (context instanceof DiaryActivity) {
+            activity = (DiaryActivity) context;
             activity.popTopBar();
         }
     }
 
     public long getTopicId() {
-        return ((EntriesActivity) getActivity()).getTopicId();
+        return ((DiaryActivity) getActivity()).getTopicId();
     }
 
 }

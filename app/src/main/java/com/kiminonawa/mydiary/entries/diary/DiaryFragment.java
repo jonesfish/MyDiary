@@ -1,7 +1,6 @@
 package com.kiminonawa.mydiary.entries.diary;
 
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,8 +13,7 @@ import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
-import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
-import com.kiminonawa.mydiary.shared.ColorTools;
+import com.kiminonawa.mydiary.entries.entries.BaseDiaryFragment;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +26,7 @@ import java.util.Date;
  * I define this page for write diary.
  */
 
-public class DiaryFragment extends BaseEntriesFragment implements View.OnClickListener {
+public class DiaryFragment extends BaseDiaryFragment implements View.OnClickListener {
 
 
     /**
@@ -84,9 +82,6 @@ public class DiaryFragment extends BaseEntriesFragment implements View.OnClickLi
 
         IV_diary_delete.setVisibility(View.GONE);
 
-        //Disable Button
-        IV_diary_menu.setColorFilter(ColorTools.getColor(getActivity(), R.color.button_disable_color), PorterDuff.Mode.SRC_ATOP);
-        IV_diary_photo.setColorFilter(ColorTools.getColor(getActivity(), R.color.button_disable_color), PorterDuff.Mode.SRC_ATOP);
 
         return rootView;
     }

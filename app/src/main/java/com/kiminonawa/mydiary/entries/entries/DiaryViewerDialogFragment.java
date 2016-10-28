@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
@@ -19,9 +20,11 @@ import com.kiminonawa.mydiary.db.DBManager;
  * Created by daxia on 2016/10/27.
  */
 
-public class DiaryViewerDialogFragment extends DialogFragment {
+public class DiaryViewerDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private EditText EDT_diary_title, EDT_diary_content;
+    private ImageView IV_diary_delete, IV_diary_clear, IV_diary_save;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,9 +76,24 @@ public class DiaryViewerDialogFragment extends DialogFragment {
         EDT_diary_title = (EditText) rootView.findViewById(R.id.EDT_diary_title);
         EDT_diary_content = (EditText) rootView.findViewById(R.id.EDT_diary_content);
 
+
+        IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
+        IV_diary_delete.setOnClickListener(this);
+        IV_diary_clear = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
+        IV_diary_clear.setVisibility(View.GONE);
+        IV_diary_save = (ImageView) rootView.findViewById(R.id.IV_diary_save);
+        IV_diary_save.setVisibility(View.GONE);
+
+        EDT_diary_title.setClickable(false);
         EDT_diary_title.setKeyListener(null);
+        EDT_diary_content.setClickable(false);
         EDT_diary_content.setKeyListener(null);
 
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class EntriesFragment extends BaseEntriesFragment {
+public class DiaryFragment extends BaseDiaryFragment {
 
     /**
      * UI
@@ -32,7 +32,7 @@ public class EntriesFragment extends BaseEntriesFragment {
     private EntriesAdapter entriesAdapter;
     private List<EntriesEntity> entriesList;
 
-    public EntriesFragment() {
+    public DiaryFragment() {
         // Required empty public constructor
     }
 
@@ -56,7 +56,7 @@ public class EntriesFragment extends BaseEntriesFragment {
     private void initRecyclerView() {
         LinearLayoutManager lmr = new LinearLayoutManager(getActivity());
         RecyclerView_entries.setLayoutManager(lmr);
-        entriesAdapter = new EntriesAdapter(EntriesFragment.this, entriesList);
+        entriesAdapter = new EntriesAdapter(DiaryFragment.this, entriesList);
         RecyclerView_entries.setAdapter(entriesAdapter);
     }
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.entries.EntriesActivity;
+import com.kiminonawa.mydiary.entries.DiaryActivity;
 import com.kiminonawa.mydiary.main.topic.ITopic;
 
 import java.util.List;
@@ -51,8 +51,8 @@ public class MainTopicAdapter extends RecyclerView.Adapter<MainTopicAdapter.Topi
             @Override
             public void onClick(View v) {
                 switch (topicList.get(position).getType()) {
-                    case ITopic.TYPE_ENTRIES:
-                        Intent goEntriesPageIntent = new Intent(mContext, EntriesActivity.class);
+                    case ITopic.TYPE_DIARY:
+                        Intent goEntriesPageIntent = new Intent(mContext, DiaryActivity.class);
                         //Send topicId for memo & entries
                         goEntriesPageIntent.putExtra("topicId", topicList.get(position).getId());
                         mContext.startActivity(goEntriesPageIntent);

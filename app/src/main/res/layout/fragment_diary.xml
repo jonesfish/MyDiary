@@ -73,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_camera_enhance_white_24dp" />
+            android:src="@drawable/ic_camera_enhance_white_24dp"
+            android:tint="@color/button_disable_color" />
 
         <ImageView
             android:id="@+id/IV_diary_menu"
@@ -83,7 +84,8 @@
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@id/IV_diary_photo"
             android:clickable="false"
-            android:src="@drawable/ic_more_horiz_white_24dp" />
+            android:src="@drawable/ic_more_horiz_white_24dp"
+            android:tint="@color/button_disable_color" />
 
 
         <ImageView
@@ -144,8 +146,8 @@
                 android:id="@+id/EDT_diary_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapCharacters"
                 android:hint="title"
+                android:inputType="textCapCharacters"
                 android:maxLines="1" />
 
             <EditText

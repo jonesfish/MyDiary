@@ -12,13 +12,12 @@ import android.widget.RadioGroup;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.calendar.CalendarFragment;
-import com.kiminonawa.mydiary.entries.diary.DiaryFragment;
-import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
-import com.kiminonawa.mydiary.entries.entries.EntriesFragment;
+import com.kiminonawa.mydiary.entries.entries.BaseDiaryFragment;
+import com.kiminonawa.mydiary.entries.entries.DiaryFragment;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
-public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener {
+public class DiaryActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
 
     private long topicId;
@@ -26,10 +25,10 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
     /**
      * UI
      */
-    private LinearLayout LL_entries_topbar_content;
-    private ViewPager ViewPager_entries_content;
-    private SegmentedGroup SG_entries_topbar;
-    private RadioButton But_entries_topbar_entries, But_entries_topbar_calendar, But_entries_topbar_diary;
+    private LinearLayout LL_diary_topbar_content;
+    private ViewPager ViewPager_diary_content;
+    private SegmentedGroup SG_diary_topbar;
+    private RadioButton But_diary_topbar_entries, But_diary_topbar_calendar, But_diary_topbar_diary;
 
 
     /**
@@ -41,7 +40,7 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entries);
+        setContentView(R.layout.activity_diary);
 
         topicId = getIntent().getLongExtra("topicId", -1);
         if (topicId == -1){
@@ -51,20 +50,20 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
         /**
          * Init Viewpager
          */
-            ViewPager_entries_content = (ViewPager) findViewById(R.id.ViewPager_entries_content);
+            ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        ViewPager_entries_content.setAdapter(mPagerAdapter);
-        ViewPager_entries_content.addOnPageChangeListener(onPageChangeListener);
+        ViewPager_diary_content.setAdapter(mPagerAdapter);
+        ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
         /**
          * init UI
          */
-        LL_entries_topbar_content = (LinearLayout) findViewById(R.id.LL_entries_topbar_content);
-        SG_entries_topbar = (SegmentedGroup) findViewById(R.id.SG_entries_topbar);
-        SG_entries_topbar.setOnCheckedChangeListener(this);
-        But_entries_topbar_entries = (RadioButton) findViewById(R.id.But_entries_topbar_entries);
-        But_entries_topbar_calendar = (RadioButton) findViewById(R.id.But_entries_topbar_calendar);
-        But_entries_topbar_diary = (RadioButton) findViewById(R.id.But_entries_topbar_diary);
-        But_entries_topbar_entries.setChecked(true);
+        LL_diary_topbar_content = (LinearLayout) findViewById(R.id.LL_diary_topbar_content);
+        SG_diary_topbar = (SegmentedGroup) findViewById(R.id.SG_diary_topbar);
+        SG_diary_topbar.setOnCheckedChangeListener(this);
+        But_diary_topbar_entries = (RadioButton) findViewById(R.id.But_diary_topbar_entries);
+        But_diary_topbar_calendar = (RadioButton) findViewById(R.id.But_diary_topbar_calendar);
+        But_diary_topbar_diary = (RadioButton) findViewById(R.id.But_diary_topbar_diary);
+        But_diary_topbar_entries.setChecked(true);
 
 
     }
@@ -76,20 +75,20 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
 
     public void popTopBar() {
         //TODO make topbar always on Top
-//        LL_entries_topbar_content.bringToFront();
+//        LL_diary_topbar_content.bringToFront();
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
-            case R.id.But_entries_topbar_entries:
-                ViewPager_entries_content.setCurrentItem(0);
+            case R.id.But_diary_topbar_entries:
+                ViewPager_diary_content.setCurrentItem(0);
                 break;
-            case R.id.But_entries_topbar_calendar:
-                ViewPager_entries_content.setCurrentItem(1);
+            case R.id.But_diary_topbar_calendar:
+                ViewPager_diary_content.setCurrentItem(1);
                 break;
-            case R.id.But_entries_topbar_diary:
-                ViewPager_entries_content.setCurrentItem(2);
+            case R.id.But_diary_topbar_diary:
+                ViewPager_diary_content.setCurrentItem(2);
                 break;
         }
     }
@@ -100,13 +99,13 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
         public void onPageSelected(int position) {
             switch (position) {
                 default:
-                    But_entries_topbar_entries.setChecked(true);
+                    But_diary_topbar_entries.setChecked(true);
                     break;
                 case 1:
-                    But_entries_topbar_calendar.setChecked(true);
+                    But_diary_topbar_calendar.setChecked(true);
                     break;
                 case 2:
-                    But_entries_topbar_diary.setChecked(true);
+                    But_diary_topbar_diary.setChecked(true);
                     break;
             }
         }
@@ -119,17 +118,17 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
         }
 
         @Override
-        public BaseEntriesFragment getItem(int position) {
-            BaseEntriesFragment fragment;
+        public BaseDiaryFragment getItem(int position) {
+            BaseDiaryFragment fragment;
             switch (position) {
                 default:
-                    fragment = new EntriesFragment();
+                    fragment = new DiaryFragment();
                     break;
                 case 1:
                     fragment = new CalendarFragment();
                     break;
                 case 2:
-                    fragment = new DiaryFragment();
+                    fragment = new com.kiminonawa.mydiary.entries.diary.DiaryFragment();
                     break;
             }
             return fragment;

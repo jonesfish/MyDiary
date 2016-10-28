@@ -15,14 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
+import com.kiminonawa.mydiary.entries.entries.BaseDiaryFragment;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class CalendarFragment extends BaseEntriesFragment implements Animation.AnimationListener {
+public class CalendarFragment extends BaseDiaryFragment implements Animation.AnimationListener {
 
 
     /**
