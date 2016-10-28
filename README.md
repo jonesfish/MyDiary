@@ -43,13 +43,13 @@ Designing.
 
 ## screenshot
 
-![](/screenshot/0.png) 
-![](/screenshot/1.png) 
-![](/screenshot/2.png) 
-![](/screenshot/3.png)
-![](/screenshot/4.png)
-![](/screenshot/5.png)
-![](/screenshot/6.png)
+![](/screenshot/s_0.png) 
+![](/screenshot/s_1.png) 
+![](/screenshot/s_2.png) 
+![](/screenshot/s_3.png)
+![](/screenshot/s_4.png)
+![](/screenshot/s_5.png)
+![](/screenshot/s_6.png)
 
 ## License
 
