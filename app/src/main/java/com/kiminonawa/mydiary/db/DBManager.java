@@ -108,9 +108,9 @@ public class DBManager {
     private ContentValues createDiaryCV(long time, String title, String content,
                                         int mood, int weather, boolean attachment, long refTopicId) {
         ContentValues values = new ContentValues();
+        values.put(DiaryEntry.COLUMN_TIME, time);
         values.put(DiaryEntry.COLUMN_TITLE, title);
         values.put(DiaryEntry.COLUMN_CONTENT, content);
-        values.put(DiaryEntry.COLUMN_TIME, time);
         values.put(DiaryEntry.COLUMN_MOOD, mood);
         values.put(DiaryEntry.COLUMN_WEATHER, weather);
         values.put(DiaryEntry.COLUMN_ATTACHMENT, attachment);

@@ -50,8 +50,7 @@ public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDia
         entriesList = new ArrayList<>();
         loadEntries();
         initRecyclerView();
-
-        TV_entries_count.setText(entriesList.size() + " Entries");
+        countEntries();
         return rootView;
     }
 
@@ -79,13 +78,16 @@ public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDia
         }
         diaryCursor.close();
         dbManager.closeDB();
-
     }
 
+    private void countEntries(){
+        TV_entries_count.setText(entriesList.size() + " Entries");
+    }
 
     @Override
     public void deleteDiary() {
         loadEntries();
         entriesAdapter.notifyDataSetChanged();
+        countEntries();
     }
 }

@@ -13,6 +13,7 @@ import com.kiminonawa.mydiary.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -53,18 +54,24 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(entriesList.get(position).getCreateDate());
+
+        if (showHeader(position)) {
+            holder.getHeader().setVisibility(View.VISIBLE);
+            holder.getHeader().setText(String.valueOf(calendar.get(Calendar.MONTH) + 1));
+        } else {
+            holder.getHeader().setVisibility(View.GONE);
+        }
+
         holder.getTVDate().setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         holder.getTVDay().setText(daysSimpleName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
         holder.getTVTime().setText(String.valueOf(dateFormat.format(calendar.getTime())));
         holder.getTVTitle().setText(entriesList.get(position).getTitle());
         holder.getTVSummary().setText(entriesList.get(position).getSummary());
-
         if (entriesList.get(position).hasAttachment()) {
             holder.getIVAttachment().setVisibility(View.VISIBLE);
         } else {
             holder.getIVAttachment().setVisibility(View.GONE);
         }
-
         holder.getRootView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,11 +81,27 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
                 diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
             }
         });
+    }
 
+    private boolean showHeader(final int position) {
+        if (position == 0) {
+            return true;
+        } else {
+            Calendar previousCalendar = new GregorianCalendar();
+            previousCalendar.setTime(entriesList.get(position - 1).getCreateDate());
+            Calendar currentCalendar = new GregorianCalendar();
+            currentCalendar.setTime(entriesList.get(position).getCreateDate());
+            if (previousCalendar.get(Calendar.MONTH) != currentCalendar.get(Calendar.MONTH)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     protected class EntriesViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView TV_entries_item_header;
         private TextView TV_entries_item_date, TV_entries_item_day, TV_entries_item_time,
                 TV_entries_item_title, TV_entries_item_summary;
         private View rootView;
@@ -88,6 +111,8 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
         protected EntriesViewHolder(View view) {
             super(view);
             this.rootView = view;
+            this.TV_entries_item_header = (TextView) rootView.findViewById(R.id.TV_entries_item_header);
+
             this.TV_entries_item_date = (TextView) rootView.findViewById(R.id.TV_entries_item_date);
             this.TV_entries_item_day = (TextView) rootView.findViewById(R.id.TV_entries_item_day);
             this.TV_entries_item_time = (TextView) rootView.findViewById(R.id.TV_entries_item_time);
@@ -97,6 +122,11 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_mood = (ImageView) rootView.findViewById(R.id.IV_entries_item_mood);
             this.IV_entries_item_bookmark = (ImageView) rootView.findViewById(R.id.IV_entries_item_bookmark);
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
+        }
+
+
+        public TextView getHeader() {
+            return TV_entries_item_header;
         }
 
         public TextView getTVDate() {

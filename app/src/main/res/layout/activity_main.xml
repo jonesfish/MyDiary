@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
         android:layout_alignParentTop="true"
-        android:background="@color/themeColor"
+        android:background="@drawable/profile_theme_bg"
         android:orientation="horizontal">
 
         <ImageView
@@ -36,7 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
 
         <ImageView
@@ -48,6 +50,17 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_settings_black_24dp"
             android:tint="@color/themeColor" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/IV_main_setting"
+            android:background="@color/themeColor"
+            android:drawableLeft="@drawable/ic_search_white_18dp"
+            android:drawableTint="@color/button_disable_color" />
 
     </RelativeLayout>
 

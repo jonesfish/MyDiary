@@ -23,5 +23,8 @@
     <color name="edit_stroke">#CACACA</color>
     <color name="edit_content_background">#ffffff</color>
 
+    <!--Textview-->
+    <color name="textview_shadow">#000000</color>
+
 
 </resources>

@@ -9,7 +9,9 @@
         android:layout_height="120dp"
         android:background="@color/themeColor"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/TV_diary_month"
@@ -17,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:includeFontPadding="false"
-            android:text="10"
             android:textColor="@android:color/white"
             android:textSize="10sp" />
 
@@ -26,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="20"
             android:textColor="@android:color/white"
             android:textSize="50sp"
             android:textStyle="bold" />
@@ -43,7 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:text="20"
                 android:textColor="@android:color/white"
                 android:textSize="10sp" />
 
@@ -53,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:includeFontPadding="false"
-                android:text="15"
                 android:textColor="@android:color/white"
                 android:textSize="10sp" />
 
@@ -146,7 +144,7 @@
                 android:id="@+id/EDT_diary_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="title"
+                android:hint="Diary title"
                 android:inputType="textCapCharacters"
                 android:maxLines="1" />
 
@@ -156,7 +154,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:gravity="top|left"
-                android:hint="Input diary here."
+                android:hint="Write your diary here."
                 android:padding="2dp" />
 
 
