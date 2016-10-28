@@ -9,10 +9,16 @@ import com.kiminonawa.mydiary.R;
 public class Contacts implements ITopic {
 
     private String title;
+    private long id;
 
-
-    public Contacts(String title) {
+    public Contacts(long id, String title) {
+        this.id = id;
         this.title = title;
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 
     @Override

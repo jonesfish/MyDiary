@@ -6,13 +6,19 @@ import com.kiminonawa.mydiary.R;
  * Created by daxia on 2016/10/17.
  */
 
-public class Entries implements ITopic {
+public class Diary implements ITopic {
 
     private String title;
+    private long id;
 
-
-    public Entries(String title){
+    public Diary(long id, String title) {
+        this.id = id;
         this.title = title;
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 
     @Override
@@ -22,7 +28,7 @@ public class Entries implements ITopic {
 
     @Override
     public int getType() {
-        return TYPE_ENTRIES;
+        return TYPE_DIARY;
     }
 
     @Override

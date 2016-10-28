@@ -15,13 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.entries.entries.BaseEntriesFragment;
+import com.kiminonawa.mydiary.entries.BaseDiaryFragment;
+import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class CalendarFragment extends BaseEntriesFragment implements Animation.AnimationListener {
+public class CalendarFragment extends BaseDiaryFragment implements Animation.AnimationListener {
 
 
     /**
@@ -29,11 +30,10 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
      */
     private Calendar calendar;
     private Date currentDate;
-    private String[] monthsFullName;
-    private String[] daysFullName;
     private int dateChange = 0;
     //Temp value
     private int miniTouchGestureWidth = 120;
+    private TimeTools timeTools;
 
     /**
      * Animation
@@ -57,8 +57,7 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
         calendar = Calendar.getInstance();
         currentDate = new Date();
         calendar.setTime(currentDate);
-        monthsFullName = this.getResources().getStringArray(R.array.months_full_name);
-        daysFullName = this.getResources().getStringArray(R.array.days_full_name);
+        timeTools = TimeTools.getInstance(getActivity().getApplicationContext());
         initAnimation();
     }
 
@@ -80,9 +79,9 @@ public class CalendarFragment extends BaseEntriesFragment implements Animation.A
     }
 
     private void updateCalendar() {
-        TV_calendar_months.setText(monthsFullName[calendar.get(Calendar.MONTH)]);
+        TV_calendar_months.setText(timeTools.getMonthsFullName()[calendar.get(Calendar.MONTH)]);
         TV_calendar_date.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        TV_calendar_day.setText(daysFullName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
+        TV_calendar_day.setText(timeTools.getDaysFullName()[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
     }
 
     private void initAnimation() {

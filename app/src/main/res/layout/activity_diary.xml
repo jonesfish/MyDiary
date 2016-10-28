@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/LL_entries_topbar_content"
+        android:id="@+id/LL_diary_topbar_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
         android:alpha="0.8"
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <info.hoang8f.android.segmented.SegmentedGroup
-            android:id="@+id/SG_entries_topbar"
+            android:id="@+id/SG_diary_topbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -26,7 +26,7 @@
 
 
             <RadioButton
-                android:id="@+id/But_entries_topbar_entries"
+                android:id="@+id/But_diary_topbar_entries"
                 style="@style/RadioButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:textAllCaps="false" />
 
             <RadioButton
-                android:id="@+id/But_entries_topbar_calendar"
+                android:id="@+id/But_diary_topbar_calendar"
                 style="@style/RadioButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:textAllCaps="false" />
 
             <RadioButton
-                android:id="@+id/But_entries_topbar_diary"
+                android:id="@+id/But_diary_topbar_diary"
                 style="@style/RadioButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         </info.hoang8f.android.segmented.SegmentedGroup>
 
         <TextView
-            android:id="@+id/TV_entries_topbar_title"
+            android:id="@+id/TV_diary_topbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -74,16 +74,16 @@
 
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/ViewPager_entries_content"
+        android:id="@+id/ViewPager_diary_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/LL_entries_topbar_content" />
+        android:layout_below="@+id/LL_diary_topbar_content" />
 
     <View
         android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/shadow_height_5dp"
-        android:layout_below="@id/LL_entries_topbar_content"
+        android:layout_below="@id/LL_diary_topbar_content"
         android:background="@drawable/view_bottom_shadow" />
 
 

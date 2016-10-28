@@ -9,10 +9,16 @@ import com.kiminonawa.mydiary.R;
 public class Memo implements ITopic {
 
     private String title;
+    private long id;
 
-
-    public Memo(String title){
+    public Memo(long id, String title) {
+        this.id = id;
         this.title = title;
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 
     @Override

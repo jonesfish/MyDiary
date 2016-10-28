@@ -36,6 +36,12 @@
         <item>Saturday</item>
     </array>
 
+    <array name="topic_type">
+        <item>Contacts</item>
+        <item>Diary</item>
+        <item>MEMO</item>
+    </array>
+
 
 
 </resources>

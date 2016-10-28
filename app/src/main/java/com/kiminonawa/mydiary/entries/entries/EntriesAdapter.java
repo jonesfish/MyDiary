@@ -1,7 +1,6 @@
 package com.kiminonawa.mydiary.entries.entries;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.shared.ColorTools;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -25,14 +24,16 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
 
 
     private List<EntriesEntity> entriesList;
-    private Context mContext;
+    private Fragment mFragment;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
     private String[] daysSimpleName;
+    private DiaryViewerDialogFragment.DiaryViewerCallback mDiaryViewerCallback;
 
-    public EntriesAdapter(Context context, List<EntriesEntity> topicList) {
-        this.mContext = context;
+    public EntriesAdapter(Fragment fragment, List<EntriesEntity> topicList, DiaryViewerDialogFragment.DiaryViewerCallback callback) {
+        this.mFragment = fragment;
         this.entriesList = topicList;
-        daysSimpleName = mContext.getResources().getStringArray(R.array.days_simple_name);
+        this.mDiaryViewerCallback = callback;
+        daysSimpleName = mFragment.getResources().getStringArray(R.array.days_simple_name);
     }
 
 
@@ -53,22 +54,54 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(entriesList.get(position).getCreateDate());
+
+        if (showHeader(position)) {
+            holder.getHeader().setVisibility(View.VISIBLE);
+            holder.getHeader().setText(String.valueOf(calendar.get(Calendar.MONTH) + 1));
+        } else {
+            holder.getHeader().setVisibility(View.GONE);
+        }
+
         holder.getTVDate().setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         holder.getTVDay().setText(daysSimpleName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
         holder.getTVTime().setText(String.valueOf(dateFormat.format(calendar.getTime())));
         holder.getTVTitle().setText(entriesList.get(position).getTitle());
         holder.getTVSummary().setText(entriesList.get(position).getSummary());
-
         if (entriesList.get(position).hasAttachment()) {
             holder.getIVAttachment().setVisibility(View.VISIBLE);
         } else {
             holder.getIVAttachment().setVisibility(View.GONE);
         }
+        holder.getRootView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DiaryViewerDialogFragment diaryViewerDialog =
+                        DiaryViewerDialogFragment.newInstance(entriesList.get(position).getId());
+                diaryViewerDialog.setCallBack(mDiaryViewerCallback);
+                diaryViewerDialog.show(mFragment.getFragmentManager(), "diaryViewerDialog");
+            }
+        });
+    }
 
+    private boolean showHeader(final int position) {
+        if (position == 0) {
+            return true;
+        } else {
+            Calendar previousCalendar = new GregorianCalendar();
+            previousCalendar.setTime(entriesList.get(position - 1).getCreateDate());
+            Calendar currentCalendar = new GregorianCalendar();
+            currentCalendar.setTime(entriesList.get(position).getCreateDate());
+            if (previousCalendar.get(Calendar.MONTH) != currentCalendar.get(Calendar.MONTH)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     protected class EntriesViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView TV_entries_item_header;
         private TextView TV_entries_item_date, TV_entries_item_day, TV_entries_item_time,
                 TV_entries_item_title, TV_entries_item_summary;
         private View rootView;
@@ -78,6 +111,8 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
         protected EntriesViewHolder(View view) {
             super(view);
             this.rootView = view;
+            this.TV_entries_item_header = (TextView) rootView.findViewById(R.id.TV_entries_item_header);
+
             this.TV_entries_item_date = (TextView) rootView.findViewById(R.id.TV_entries_item_date);
             this.TV_entries_item_day = (TextView) rootView.findViewById(R.id.TV_entries_item_day);
             this.TV_entries_item_time = (TextView) rootView.findViewById(R.id.TV_entries_item_time);
@@ -87,11 +122,11 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_mood = (ImageView) rootView.findViewById(R.id.IV_entries_item_mood);
             this.IV_entries_item_bookmark = (ImageView) rootView.findViewById(R.id.IV_entries_item_bookmark);
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
-            //Set color filiter
-            IV_entries_item_weather.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_mood.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_bookmark.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
-            IV_entries_item_attachment.getDrawable().setColorFilter(ColorTools.getColor(mContext, R.color.entries_main_color), PorterDuff.Mode.SRC_ATOP);
+        }
+
+
+        public TextView getHeader() {
+            return TV_entries_item_header;
         }
 
         public TextView getTVDate() {
