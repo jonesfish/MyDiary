@@ -23,9 +23,10 @@ so , maybe I will try to create iOS version after this app is running.
 
  **Work:**
 * Add topic
+* Delete topic
 * Show diary lsit
-* add diary
-* delete diary
+* Add diary
+* Delete diary
 * Change date in calendar page (page curl effect not ready)
 
 

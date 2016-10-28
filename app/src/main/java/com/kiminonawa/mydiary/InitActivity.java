@@ -13,7 +13,7 @@ import com.kiminonawa.mydiary.shared.SPFManager;
 public class InitActivity extends Activity {
 
 
-    private int initTime = 1000; // 3S
+    private int initTime = 3000; // 3S
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
