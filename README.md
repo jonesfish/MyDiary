@@ -18,10 +18,21 @@ In fact , Android version is more difficult than iOS ,becaus this app is run on 
 
 so , maybe I will try to create iOS version after this app is running.
 
-## Function
+
+## Fuunction
+
+ **Work:**
+* Add topic
+* Show diary lsit
+* add diary
+* delete diary
+* Change date in calendar page (page curl effect not ready)
+
+
+## Usecase
 
 Because DVD/BD doesn't be released  now, so the use case is from my memory and network information. 
-If you have any idea or find some function what I lose  , you can tell me or update the use case in **/UML/MyDiary.mdj ** by [starUML](http://staruml.io/):
+If you have any idea or find some function what I lose  , you can tell me or update the use case in **/UML/MyDiary.mdj**  by [starUML](http://staruml.io/):
 
 ![](/screenshot/usercase.png) 
 
@@ -32,11 +43,11 @@ Designing.
 
 ## screenshot
 
+![](/screenshot/0.png) 
 ![](/screenshot/1.png) 
 ![](/screenshot/2.png) 
 ![](/screenshot/3.png)
 ![](/screenshot/4.png)
-
 
 ## License
 
