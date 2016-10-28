@@ -23,6 +23,7 @@ public interface ITopic {
 
     String getTitle();
     int getType();
+    long getId();
     @DrawableRes int getIcon();
 
 }

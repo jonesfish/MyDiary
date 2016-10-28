@@ -53,7 +53,7 @@ public class DiaryViewerDialogFragment extends DialogFragment {
             if (diaryId != -1) {
                 DBManager dbManager = new DBManager(getActivity());
                 dbManager.opeDB();
-                Cursor diaryCursor = dbManager.selectDiary();
+                Cursor diaryCursor = dbManager.selectDiaryByDiaryId(diaryId);
                 EDT_diary_title.setText(diaryCursor.getString(2));
                 EDT_diary_content.setText(diaryCursor.getString(3));
                 diaryCursor.close();

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.kiminonawa.mydiary.db.DiaryStructure.DiaryEntry;
+import static com.kiminonawa.mydiary.db.DiaryStructure.TopicEntry;
 
 /**
  * Created by daxia on 2016/4/2.
@@ -26,7 +27,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String FOREIGN = " FOREIGN KEY ";
     private static final String REFERENCES = " REFERENCES ";
 
-    private static final String SQL_CREATE_ENTRIES =
+    private static final String SQL_CREATE_TOPIC_ENTRIES =
+            "CREATE TABLE " + TopicEntry.TABLE_NAME + " (" +
+                    TopicEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT," +
+                    TopicEntry.COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
+                    TopicEntry.COLUMN_TYPE + INTEGER_TYPE +
+                    " )";
+
+    private static final String SQL_CREATE_DIARY_ENTRIES =
             "CREATE TABLE " + DiaryEntry.TABLE_NAME + " (" +
                     DiaryEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT," +
                     DiaryEntry.COLUMN_TIME + INTEGER_TYPE + COMMA_SEP +
@@ -34,7 +42,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     DiaryEntry.COLUMN_CONTENT + TEXT_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_MOOD + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_WEATHER + INTEGER_TYPE + COMMA_SEP +
-                    DiaryEntry.COLUMN_ATTACHMENT + INTEGER_TYPE +
+                    DiaryEntry.COLUMN_ATTACHMENT + INTEGER_TYPE + COMMA_SEP +
+                    DiaryEntry.COLUMN_TOPIC__ID + INTEGER_TYPE + COMMA_SEP +
+                    FOREIGN + " (" + DiaryEntry.COLUMN_TOPIC__ID + ")" + REFERENCES + TopicEntry.TABLE_NAME + "(" + TopicEntry._ID + ")" +
                     " )";
 
 
@@ -43,7 +53,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_TOPIC_ENTRIES);
+        db.execSQL(SQL_CREATE_DIARY_ENTRIES);
+
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

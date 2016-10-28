@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import static com.kiminonawa.mydiary.db.DiaryStructure.DiaryEntry;
+import static com.kiminonawa.mydiary.db.DiaryStructure.TopicEntry;
 
 /**
  * Created by daxia on 2016/4/2.
@@ -24,6 +25,9 @@ public class DBManager {
         this.context = context;
     }
 
+    /**
+     * DB IO
+     */
 
     public void opeDB() throws SQLiteException {
         mDBHelper = new DBHelper(context);
@@ -35,10 +39,37 @@ public class DBManager {
         mDBHelper.close();
     }
 
+
+    /**
+     * Topic
+     */
+
+    public long insertTopic(String name, int type) {
+        return db.insert(
+                TopicEntry.TABLE_NAME,
+                null,
+                this.createTopicCV(name, type));
+    }
+
+    public Cursor selectTopic() {
+        Cursor c = db.query(TopicEntry.TABLE_NAME, null, null, null, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    private ContentValues createTopicCV(String name, int type) {
+        ContentValues values = new ContentValues();
+        values.put(TopicEntry.COLUMN_NAME, name);
+        values.put(TopicEntry.COLUMN_TYPE, type);
+        return values;
+    }
+
+
     /**
      * Diary
      */
-
     public long insetDiary(long time, String title, String content,
                            int mood, int weather, boolean attachment) {
         return db.insert(
@@ -65,7 +96,6 @@ public class DBManager {
         return c;
     }
 
-
     private ContentValues createDiaryCV(long time, String title, String content,
                                         int mood, int weather, boolean attachment) {
         ContentValues values = new ContentValues();
@@ -78,6 +108,9 @@ public class DBManager {
         return values;
     }
 
+    /**
+     * Debug
+     */
 
     //For Debug
     public void showCursor(Cursor cursor) {

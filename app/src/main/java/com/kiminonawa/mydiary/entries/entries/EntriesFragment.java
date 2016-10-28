@@ -65,10 +65,8 @@ public class EntriesFragment extends BaseEntriesFragment {
         dbManager.opeDB();
         Cursor diaryCursor = dbManager.selectDiary();
         for (int i = 0; i < diaryCursor.getCount(); i++) {
-
             String title = diaryCursor.getString(2);
             String content = diaryCursor.getString(3);
-
             entriesList.add(
                     new EntriesEntity(diaryCursor.getLong(0), new Date(diaryCursor.getLong(1)),
                             title.substring(0, Math.min(30, title.length())),
