@@ -52,7 +52,8 @@ public class DBManager {
     }
 
     public Cursor selectTopic() {
-        Cursor c = db.query(TopicEntry.TABLE_NAME, null, null, null, null, null, null);
+        Cursor c = db.query(TopicEntry.TABLE_NAME, null, null, null, null, null,
+                TopicEntry._ID + " DESC");
         if (c != null) {
             c.moveToFirst();
         }
@@ -71,17 +72,17 @@ public class DBManager {
      * Diary
      */
     public long insetDiary(long time, String title, String content,
-                           int mood, int weather, boolean attachment) {
+                           int mood, int weather, boolean attachment, long refTopicId) {
         return db.insert(
                 DiaryEntry.TABLE_NAME,
                 null,
                 this.createDiaryCV(time, title, content,
-                        mood, weather, attachment));
+                        mood, weather, attachment, refTopicId));
     }
 
-    public Cursor selectDiary() {
-        Cursor c = db.query(DiaryEntry.TABLE_NAME, null, null, null, null, null,
-                DiaryEntry.COLUMN_TIME + " DESC");
+    public Cursor selectDiary(long topicId) {
+        Cursor c = db.query(DiaryEntry.TABLE_NAME, null, DiaryEntry.COLUMN_REF_TOPIC__ID + " = ?", new String[]{String.valueOf(topicId)}, null, null,
+                DiaryEntry.COLUMN_TIME + " DESC", null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -97,7 +98,7 @@ public class DBManager {
     }
 
     private ContentValues createDiaryCV(long time, String title, String content,
-                                        int mood, int weather, boolean attachment) {
+                                        int mood, int weather, boolean attachment, long refTopicId) {
         ContentValues values = new ContentValues();
         values.put(DiaryEntry.COLUMN_TITLE, title);
         values.put(DiaryEntry.COLUMN_CONTENT, content);
@@ -105,6 +106,7 @@ public class DBManager {
         values.put(DiaryEntry.COLUMN_MOOD, mood);
         values.put(DiaryEntry.COLUMN_WEATHER, weather);
         values.put(DiaryEntry.COLUMN_ATTACHMENT, attachment);
+        values.put(DiaryEntry.COLUMN_REF_TOPIC__ID, refTopicId);
         return values;
     }
 

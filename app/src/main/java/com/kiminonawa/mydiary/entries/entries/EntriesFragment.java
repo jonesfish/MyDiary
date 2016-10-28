@@ -63,7 +63,7 @@ public class EntriesFragment extends BaseEntriesFragment {
     private void loadEntries() {
         DBManager dbManager = new DBManager(getActivity());
         dbManager.opeDB();
-        Cursor diaryCursor = dbManager.selectDiary();
+        Cursor diaryCursor = dbManager.selectDiary(getTopicId());
         for (int i = 0; i < diaryCursor.getCount(); i++) {
             String title = diaryCursor.getString(2);
             String content = diaryCursor.getString(3);

@@ -43,8 +43,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     DiaryEntry.COLUMN_MOOD + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_WEATHER + INTEGER_TYPE + COMMA_SEP +
                     DiaryEntry.COLUMN_ATTACHMENT + INTEGER_TYPE + COMMA_SEP +
-                    DiaryEntry.COLUMN_TOPIC__ID + INTEGER_TYPE + COMMA_SEP +
-                    FOREIGN + " (" + DiaryEntry.COLUMN_TOPIC__ID + ")" + REFERENCES + TopicEntry.TABLE_NAME + "(" + TopicEntry._ID + ")" +
+                    DiaryEntry.COLUMN_REF_TOPIC__ID + INTEGER_TYPE + COMMA_SEP +
+                    FOREIGN + " (" + DiaryEntry.COLUMN_REF_TOPIC__ID + ")" + REFERENCES + TopicEntry.TABLE_NAME + "(" + TopicEntry._ID + ")" +
                     " )";
 
 

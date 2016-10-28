@@ -2,7 +2,6 @@ package com.kiminonawa.mydiary.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,20 +53,14 @@ public class MainTopicAdapter extends RecyclerView.Adapter<MainTopicAdapter.Topi
                 switch (topicList.get(position).getType()) {
                     case ITopic.TYPE_ENTRIES:
                         Intent goEntriesPageIntent = new Intent(mContext, EntriesActivity.class);
+                        //Send topicId for memo & entries
+                        goEntriesPageIntent.putExtra("topicId", topicList.get(position).getId());
                         mContext.startActivity(goEntriesPageIntent);
                         break;
                 }
             }
         });
 
-        /**
-         * Make the entries click easily.
-         */
-        if (topicList.get(position).getType() == ITopic.TYPE_ENTRIES) {
-            holder.getRootView().setBackgroundColor(Color.parseColor("#ffa500"));
-        } else {
-            holder.getRootView().setBackgroundColor(Color.parseColor("#ffffff"));
-        }
     }
 
     protected class TopicViewHolder extends RecyclerView.ViewHolder {

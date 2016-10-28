@@ -10,16 +10,16 @@ public interface ITopic {
     /**
      * The contacts , Mitsuha  and Taki change their cell phone numberin this function.
      */
-    int TYPE_CONTACTS = 1;
+    int TYPE_CONTACTS = 0;
     /**
      * Mitsuha and Taki write daily diary when their soul change.
      */
-    int TYPE_ENTRIES = 2;
+    int TYPE_ENTRIES = 1;
 
     /**
      * Mitsuha and Taki add some memo for notice that something can't do.
      */
-    int TYPE_MEMO = 3;
+    int TYPE_MEMO = 2;
 
     String getTitle();
     int getType();

@@ -15,15 +15,17 @@ import android.widget.RelativeLayout;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
+import com.kiminonawa.mydiary.main.topic.Contacts;
 import com.kiminonawa.mydiary.main.topic.Entries;
 import com.kiminonawa.mydiary.main.topic.ITopic;
+import com.kiminonawa.mydiary.main.topic.Memo;
 import com.kiminonawa.mydiary.shared.ColorTools;
 import com.kiminonawa.mydiary.shared.ViewTools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, DialogCreateTopic.TopicCreatedCallback {
 
 
     /**
@@ -78,9 +80,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor topicCursor = dbManager.selectTopic();
         for (int i = 0; i < topicCursor.getCount(); i++) {
             switch (topicCursor.getInt(2)) {
+                case ITopic.TYPE_CONTACTS:
+                    topicList.add(
+                            new Contacts(topicCursor.getLong(0), topicCursor.getString(1)));
+                    break;
                 case ITopic.TYPE_ENTRIES:
                     topicList.add(
                             new Entries(topicCursor.getLong(0), topicCursor.getString(1)));
+                    break;
+                case ITopic.TYPE_MEMO:
+                    topicList.add(
+                            new Memo(topicCursor.getLong(0), topicCursor.getString(1)));
                     break;
             }
             topicCursor.moveToNext();
@@ -118,14 +128,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mPopupWindow.showAsDropDown(IV_main_setting, RL_main_bottom_bar.getWidth(), 0);
                 break;
             case R.id.IV_main_popup_add:
-                dbManager.opeDB();
-                dbManager.insertTopic("test", ITopic.TYPE_ENTRIES);
-                dbManager.closeDB();
-                loadTopic();
-                mainTopicAdapter.notifyDataSetChanged();
+                DialogCreateTopic dialogCreateTopic = new DialogCreateTopic();
+                dialogCreateTopic.setCallBack(this);
+                dialogCreateTopic.show(getSupportFragmentManager(), "dialogCreateTopic");
+                mPopupWindow.dismiss();
                 break;
             case R.id.IV_main_popup_delete:
                 break;
         }
+    }
+
+    @Override
+    public void TopicCreated() {
+        loadTopic();
+        mainTopicAdapter.notifyDataSetChanged();
     }
 }

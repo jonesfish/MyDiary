@@ -21,8 +21,7 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
 
-    private FragmentManager fragmentManager;
-
+    private long topicId;
 
     /**
      * UI
@@ -44,16 +43,16 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entries);
 
+        topicId = getIntent().getLongExtra("topicId", -1);
+        if (topicId == -1){
+            //TODO close this activity and show toast
+        }
 
-        /**
-         * init Fragment
-         */
-        fragmentManager = getSupportFragmentManager();
         /**
          * Init Viewpager
          */
-        ViewPager_entries_content = (ViewPager) findViewById(R.id.ViewPager_entries_content);
-        mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager);
+            ViewPager_entries_content = (ViewPager) findViewById(R.id.ViewPager_entries_content);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         ViewPager_entries_content.setAdapter(mPagerAdapter);
         ViewPager_entries_content.addOnPageChangeListener(onPageChangeListener);
         /**
@@ -70,6 +69,10 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
 
     }
 
+
+    public long getTopicId() {
+        return topicId;
+    }
 
     public void popTopBar() {
         //TODO make topbar always on Top
@@ -110,6 +113,7 @@ public class EntriesActivity extends FragmentActivity implements RadioGroup.OnCh
     };
 
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }

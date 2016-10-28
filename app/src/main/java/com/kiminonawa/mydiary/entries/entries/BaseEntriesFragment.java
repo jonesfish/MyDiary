@@ -20,5 +20,9 @@ public class BaseEntriesFragment extends Fragment {
         }
     }
 
+    public long getTopicId() {
+        return ((EntriesActivity) getActivity()).getTopicId();
+    }
+
 }
 

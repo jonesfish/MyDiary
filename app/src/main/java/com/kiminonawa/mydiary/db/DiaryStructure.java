@@ -16,7 +16,7 @@ public class DiaryStructure {
         public static final String COLUMN_MOOD = "diary_mood";
         public static final String COLUMN_WEATHER = "diary_weather";
         public static final String COLUMN_ATTACHMENT = "diary_attachment";
-        public static final String COLUMN_TOPIC__ID = "diary_ref_topic_id";
+        public static final String COLUMN_REF_TOPIC__ID = "diary_ref_topic_id";
 
     }
 
