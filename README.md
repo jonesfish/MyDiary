@@ -52,6 +52,11 @@ Designing.
 ![](/screenshot/s_5.png)
 ![](/screenshot/s_6.png)
 
+
+# Apk
+[![](/screenshot/google-play-badge.png) ](https://play.google.com/store/apps/details?id=com.kiminonawa.mydiary)
+
+
 ## License
 
 **The MIT License (MIT)**
