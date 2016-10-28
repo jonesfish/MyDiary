@@ -60,6 +60,13 @@ public class DBManager {
         return c;
     }
 
+    public long delTopic(long topicId) {
+        return db.delete(
+                TopicEntry.TABLE_NAME,
+                TopicEntry._ID + " = ?"
+                , new String[]{String.valueOf(topicId)});
+    }
+
     private ContentValues createTopicCV(String name, int type) {
         ContentValues values = new ContentValues();
         values.put(TopicEntry.COLUMN_NAME, name);
@@ -85,6 +92,13 @@ public class DBManager {
                 DiaryEntry.TABLE_NAME,
                 DiaryEntry._ID + " = ?"
                 , new String[]{String.valueOf(diaryId)});
+    }
+
+    public long delAllDiaryInTopic(long topicId) {
+        return db.delete(
+                DiaryEntry.TABLE_NAME,
+                DiaryEntry.COLUMN_REF_TOPIC__ID + " = ?"
+                , new String[]{String.valueOf(topicId)});
     }
 
 

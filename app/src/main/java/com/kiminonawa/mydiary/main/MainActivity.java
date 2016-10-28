@@ -2,10 +2,13 @@ package com.kiminonawa.mydiary.main;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,21 +26,29 @@ import com.kiminonawa.mydiary.shared.ViewTools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, DialogCreateTopic.TopicCreatedCallback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        DialogCreateTopic.TopicCreatedCallback {
 
 
     /**
-     * popup
+     * Touch interface
      */
-    private PopupWindow mPopupWindow;
-    private ImageView IV_main_popup_add, IV_main_popup_delete;
+    public interface ItemTouchHelperAdapter {
+        void onItemDismiss(int position);
+    }
+
     /**
      * RecyclerView
      */
     private RecyclerView RecyclerView_topic;
     private MainTopicAdapter mainTopicAdapter;
     private List<ITopic> topicList;
-
+    private ItemTouchHelper.Callback touchCallback;
+    /**
+     * popup
+     */
+    private PopupWindow mPopupWindow;
+    private ImageView IV_main_popup_add;
     /**
      * DB
      */
@@ -98,24 +109,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initPopupWindow() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.popup_main, null);
-        mPopupWindow = new PopupWindow(view);
+        View popuoView = inflater.inflate(R.layout.popup_main, null);
+        mPopupWindow = new PopupWindow(MainActivity.this);
         mPopupWindow.setWidth(ViewTools.dpToPixel(getResources(), 80));
         mPopupWindow.setHeight(ViewTools.dpToPixel(getResources(), 100));
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
-        IV_main_popup_add = (ImageView) view.findViewById(R.id.IV_main_popup_add);
-        IV_main_popup_delete = (ImageView) view.findViewById(R.id.IV_main_popup_delete);
+
+        mPopupWindow.setContentView(popuoView);
+
+        IV_main_popup_add = (ImageView) popuoView.findViewById(R.id.IV_main_popup_add);
         IV_main_popup_add.setOnClickListener(this);
-        IV_main_popup_delete.setOnClickListener(this);
     }
 
     private void initTopicAdapter() {
         //Init topic adapter
         LinearLayoutManager lmr = new LinearLayoutManager(this);
         RecyclerView_topic.setLayoutManager(lmr);
+        RecyclerView_topic.setHasFixedSize(true);
         mainTopicAdapter = new MainTopicAdapter(this, topicList);
         RecyclerView_topic.setAdapter(mainTopicAdapter);
+        touchCallback = new itemTouchHelperCallback(mainTopicAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
+        touchHelper.attachToRecyclerView(RecyclerView_topic);
     }
 
     @Override
@@ -130,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialogCreateTopic.show(getSupportFragmentManager(), "dialogCreateTopic");
                 mPopupWindow.dismiss();
                 break;
-            case R.id.IV_main_popup_delete:
-                break;
         }
     }
 
@@ -139,5 +154,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void TopicCreated() {
         loadTopic();
         mainTopicAdapter.notifyDataSetChanged();
+    }
+
+
+    /**
+     * Swipe to remove the topic.
+     */
+    public class itemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        //TODO Add undo
+        private final ItemTouchHelperAdapter mAdapter;
+
+        public itemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        }
     }
 }
