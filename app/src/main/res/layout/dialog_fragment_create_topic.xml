@@ -58,7 +58,7 @@
                 android:id="@+id/But_topic_create_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/Space_topic_create"
+                android:layout_toLeftOf="@id/Space_topic_create"
                 android:gravity="center"
                 android:text="cancel"
                 android:textAllCaps="false" />
@@ -67,7 +67,7 @@
                 android:id="@+id/But_topic_create_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/Space_topic_create"
+                android:layout_toRightOf="@id/Space_topic_create"
                 android:gravity="center"
                 android:text="Ok"
                 android:textAllCaps="false" />
