@@ -271,12 +271,16 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     }
 
     private void saveDiary() {
+        String locationName = TV_diary_location.getText().toString();
+        if (locationName == null || "No location".equals(locationName)) {
+            locationName = "";
+        }
         DBManager dbManager = new DBManager(getActivity());
         dbManager.opeDB();
         dbManager.insetDiary(calendar.getTimeInMillis(),
                 EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
                 SP_diary_mood.getSelectedItemPosition(), SP_diary_weather.getSelectedItemPosition(),
-                false, getTopicId(), TV_diary_location.getText().toString());
+                false, getTopicId(), locationName);
         dbManager.closeDB();
         clearDiary();
     }

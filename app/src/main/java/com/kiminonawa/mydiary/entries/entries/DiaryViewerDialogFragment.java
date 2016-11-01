@@ -44,7 +44,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
      * UI
      */
 
-    private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time,TV_diary_location;
+    private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time, TV_diary_location;
     private ImageView IV_diary_weather, IV_diary_mood;
 
     private EditText EDT_diary_title, EDT_diary_content;
@@ -125,8 +125,13 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
                 EDT_diary_title.setText(diaryCursor.getString(2));
                 EDT_diary_content.setText(diaryCursor.getString(3));
                 setDiaryTime(new Date(diaryCursor.getLong(1)));
-                TV_diary_location.setText(diaryCursor.getString(8));
-                setIcon(diaryCursor.getInt(4),diaryCursor.getInt(5));
+                String locationNmae = diaryCursor.getString(8);
+                if (locationNmae != null && !"".equals(locationNmae)) {
+                    TV_diary_location.setText(locationNmae);
+                } else {
+                    TV_diary_location.setText("No location");
+                }
+                setIcon(diaryCursor.getInt(4), diaryCursor.getInt(5));
                 diaryCursor.close();
                 dbManager.closeDB();
             }
@@ -146,7 +151,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         TV_diary_time.setText(sdf.format(calendar.getTime()));
     }
 
-    private void setIcon(int mood , int weather) {
+    private void setIcon(int mood, int weather) {
         IV_diary_mood.setImageResource(DiaryInfo.getMoodResourceId(mood));
         IV_diary_weather.setImageResource(DiaryInfo.getWeathetrResourceId(weather));
     }
