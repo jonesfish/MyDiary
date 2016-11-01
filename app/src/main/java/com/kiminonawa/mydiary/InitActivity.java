@@ -49,13 +49,13 @@ public class InitActivity extends Activity {
 
             dbManager.insetDiary(1475665800000L, "東京生活3❤",
                     "There are many coffee shop in Tokyo!",
-                    DiaryInfo.MOOD_HAPPY, DiaryInfo.WEATHER_RAINY, true, 3);
+                    DiaryInfo.MOOD_HAPPY, DiaryInfo.WEATHER_RAINY, true, 3, "Tokyo");
             dbManager.insetDiary(1475241600000L, "No Title",
                     "My name is TAKI , I am a man!",
-                    DiaryInfo.MOOD_SOSO, DiaryInfo.WEATHER_SUNNY, true, 3);
+                    DiaryInfo.MOOD_SOSO, DiaryInfo.WEATHER_SUNNY, true, 3, "Itomori");
             dbManager.insetDiary(1475144400000L, "東京生活2",
-                    "Today is second day , I like tokyo!",
-                    DiaryInfo.MOOD_UNHAPPY, DiaryInfo.WEATHER_CLOUD ,false, 3);
+                    "Today is second day , I like Tokyo!",
+                    DiaryInfo.MOOD_UNHAPPY, DiaryInfo.WEATHER_CLOUD, false, 3, "Tokyo");
 
             dbManager.closeDB();
             SPFManager.setFirstRun(InitActivity.this, false);

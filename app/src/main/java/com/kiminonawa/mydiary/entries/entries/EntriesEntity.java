@@ -55,4 +55,6 @@ public class EntriesEntity {
     public int getMoodId() {
         return moodId;
     }
+
+
 }

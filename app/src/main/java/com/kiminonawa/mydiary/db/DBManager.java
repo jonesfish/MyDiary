@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import static com.kiminonawa.mydiary.db.DiaryStructure.DiaryEntry;
-import static com.kiminonawa.mydiary.db.DiaryStructure.TopicEntry;
+import static com.kiminonawa.mydiary.db.DBStructure.DiaryEntry;
+import static com.kiminonawa.mydiary.db.DBStructure.TopicEntry;
 
 /**
  * Created by daxia on 2016/4/2.
@@ -79,12 +79,12 @@ public class DBManager {
      * Diary
      */
     public long insetDiary(long time, String title, String content,
-                           int mood, int weather, boolean attachment, long refTopicId) {
+                           int mood, int weather, boolean attachment, long refTopicId , String locationName) {
         return db.insert(
                 DiaryEntry.TABLE_NAME,
                 null,
                 this.createDiaryCV(time, title, content,
-                        mood, weather, attachment, refTopicId));
+                        mood, weather, attachment, refTopicId,locationName));
     }
 
     public long delDiary(long diaryId) {
@@ -120,7 +120,8 @@ public class DBManager {
     }
 
     private ContentValues createDiaryCV(long time, String title, String content,
-                                        int mood, int weather, boolean attachment, long refTopicId) {
+                                        int mood, int weather, boolean attachment, long refTopicId,
+                                        String  locationName) {
         ContentValues values = new ContentValues();
         values.put(DiaryEntry.COLUMN_TIME, time);
         values.put(DiaryEntry.COLUMN_TITLE, title);
@@ -129,6 +130,7 @@ public class DBManager {
         values.put(DiaryEntry.COLUMN_WEATHER, weather);
         values.put(DiaryEntry.COLUMN_ATTACHMENT, attachment);
         values.put(DiaryEntry.COLUMN_REF_TOPIC__ID, refTopicId);
+        values.put(DiaryEntry.COLUMN_LOCATION, locationName);
         return values;
     }
 

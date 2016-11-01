@@ -73,7 +73,6 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         public void run() {
             updateDiaryInfo();
             SRL_diary_content.setRefreshing(false);
-            Log.e("test", "updateDiaryRunnable");
         }
     };
     /**
@@ -205,7 +204,6 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         }
         if (checkPermission(REQUEST_ACCESS_FINE_LOCATION_PERMISSION)) {
             if (locationManager.isProviderEnabled(locationProvider)) {
-                Log.e("test","work");
                 locationManager.requestLocationUpdates(locationProvider, 3000, 0, this);
             }
             //Waiting gps max timeout is 20s
@@ -277,7 +275,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         dbManager.opeDB();
         dbManager.insetDiary(calendar.getTimeInMillis(),
                 EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
-                SP_diary_mood.getSelectedItemPosition(), SP_diary_weather.getSelectedItemPosition(), false, getTopicId());
+                SP_diary_mood.getSelectedItemPosition(), SP_diary_weather.getSelectedItemPosition(),
+                false, getTopicId(), TV_diary_location.getText().toString());
         dbManager.closeDB();
         clearDiary();
     }
@@ -308,7 +307,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("test", "onLocationCganged");
+        Log.d("test", "onLocationCganged");
         diaryLocations = new Location(location);
         diaryHandler.removeCallbacksAndMessages(null);
         diaryHandler.post(updateDiaryRunnable);

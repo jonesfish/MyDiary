@@ -44,7 +44,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
      * UI
      */
 
-    private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time;
+    private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time,TV_diary_location;
     private ImageView IV_diary_weather, IV_diary_mood;
 
     private EditText EDT_diary_title, EDT_diary_content;
@@ -91,6 +91,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         TV_diary_date = (TextView) rootView.findViewById(R.id.TV_diary_date);
         TV_diary_day = (TextView) rootView.findViewById(R.id.TV_diary_day);
         TV_diary_time = (TextView) rootView.findViewById(R.id.TV_diary_time);
+        TV_diary_location = (TextView) rootView.findViewById(R.id.TV_diary_location);
 
         IV_diary_weather = (ImageView) rootView.findViewById(R.id.IV_diary_weather);
         IV_diary_weather.setVisibility(View.VISIBLE);
@@ -124,6 +125,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
                 EDT_diary_title.setText(diaryCursor.getString(2));
                 EDT_diary_content.setText(diaryCursor.getString(3));
                 setDiaryTime(new Date(diaryCursor.getLong(1)));
+                TV_diary_location.setText(diaryCursor.getString(8));
                 setIcon(diaryCursor.getInt(4),diaryCursor.getInt(5));
                 diaryCursor.close();
                 dbManager.closeDB();

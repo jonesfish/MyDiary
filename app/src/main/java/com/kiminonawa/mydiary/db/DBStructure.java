@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 /**
  * Created by daxia on 2016/4/9.
  */
-public class DiaryStructure {
+public class DBStructure {
 
 
     public static abstract class DiaryEntry implements BaseColumns {
@@ -17,6 +17,7 @@ public class DiaryStructure {
         public static final String COLUMN_WEATHER = "diary_weather";
         public static final String COLUMN_ATTACHMENT = "diary_attachment";
         public static final String COLUMN_REF_TOPIC__ID = "diary_ref_topic_id";
+        public static final String COLUMN_LOCATION = "diary_location";
 
     }
 
@@ -24,5 +25,12 @@ public class DiaryStructure {
         public static final String TABLE_NAME = "topic_entry";
         public static final String COLUMN_NAME = "topic_name";
         public static final String COLUMN_TYPE = "topic_type";
+    }
+
+    public static abstract class MemoEntry implements BaseColumns {
+        public static final String TABLE_NAME = "memo_entry";
+        public static final String COLUMN_CONTENT = "memo_content";
+        public static final String COLUMN_CHECKED = "memo_checked";
+        public static final String COLUMN_REF_TOPIC__ID = "memo_ref_topic_id";
     }
 }
