@@ -73,6 +73,7 @@ public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDia
                     new EntriesEntity(diaryCursor.getLong(0), new Date(diaryCursor.getLong(1)),
                             title.substring(0, Math.min(MAX_TEXT_LENGTH, title.length())),
                             content.substring(0, Math.min(MAX_TEXT_LENGTH, content.length())),
+                            diaryCursor.getInt(5), diaryCursor.getInt(4),
                             diaryCursor.getInt(6) > 0 ? true : false));
             diaryCursor.moveToNext();
         }
@@ -80,7 +81,7 @@ public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDia
         dbManager.closeDB();
     }
 
-    private void countEntries(){
+    private void countEntries() {
         TV_entries_count.setText(entriesList.size() + " Entries");
     }
 

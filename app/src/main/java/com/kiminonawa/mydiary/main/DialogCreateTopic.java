@@ -64,16 +64,15 @@ public class DialogCreateTopic extends DialogFragment implements View.OnClickLis
         But_topic_create_ok.setOnClickListener(this);
         But_topic_create_cancel = (Button) rootView.findViewById(R.id.But_topic_create_cancel);
         But_topic_create_cancel.setOnClickListener(this);
-        initDisappearSpinner();
+        initTopicTypeSpinner();
         return rootView;
     }
 
-    private void initDisappearSpinner() {
-        ArrayAdapter disappearAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item,
+    private void initTopicTypeSpinner() {
+        ArrayAdapter topicTypeAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.topic_type));
-        SP_topic_create_type.setAdapter(disappearAdapter);
+        SP_topic_create_type.setAdapter(topicTypeAdapter);
         SP_topic_create_type.setSelection(1);
-        SP_topic_create_type.setClickable(false);
         //TODO add memo & contancts
 //        SP_topic_create_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override

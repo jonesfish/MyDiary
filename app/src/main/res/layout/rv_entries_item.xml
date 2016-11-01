@@ -75,7 +75,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:padding="2dp"
-                        android:src="@drawable/ic_weather_sun"
+                        android:src="@drawable/ic_weather_sunny"
                         android:tint="@color/themeColor" />
 
                     <ImageView

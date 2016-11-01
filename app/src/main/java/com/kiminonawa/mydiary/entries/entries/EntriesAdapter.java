@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
+import com.kiminonawa.mydiary.entries.diary.DiaryInfo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -67,6 +68,12 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
         holder.getTVTime().setText(String.valueOf(dateFormat.format(calendar.getTime())));
         holder.getTVTitle().setText(entriesList.get(position).getTitle());
         holder.getTVSummary().setText(entriesList.get(position).getSummary());
+
+        holder.getIVWeather().setImageDrawable(DiaryInfo.getWeathetrDrawable(mFragment.getActivity(),
+                entriesList.get(position).getWeatherId()));
+        holder.getIVMood().setImageDrawable(DiaryInfo.getMoodDrawable(mFragment.getActivity(),
+                entriesList.get(position).getMoodId()));
+
         if (entriesList.get(position).hasAttachment()) {
             holder.getIVAttachment().setVisibility(View.VISIBLE);
         } else {
@@ -124,6 +131,17 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
             this.IV_entries_item_attachment = (ImageView) rootView.findViewById(R.id.IV_entries_item_attachment);
         }
 
+        public ImageView getIVWeather() {
+            return IV_entries_item_weather;
+        }
+
+        public ImageView getIVMood() {
+            return IV_entries_item_mood;
+        }
+
+        public ImageView getIVBookmark() {
+            return IV_entries_item_bookmark;
+        }
 
         public TextView getHeader() {
             return TV_entries_item_header;

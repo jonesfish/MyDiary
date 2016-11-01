@@ -10,11 +10,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +37,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.R.id.message;
-
 
 /**
  * This page doesn't be used in the movie.
@@ -52,9 +49,9 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     /**
      * UI
      */
-    private SwipeRefreshLayout SRL_diary_content;
     private LinearLayout LL_diary_time_information;
     private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time, TV_diary_location;
+    private Spinner SP_diary_weather, SP_diary_mood;
     private EditText EDT_diary_title, EDT_diary_content;
 
     private ImageView IV_diary_menu, IV_diary_photo, IV_diary_delete, IV_diary_clear, IV_diary_save;
@@ -84,9 +81,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
 
-        SRL_diary_content = (SwipeRefreshLayout) rootView.findViewById(R.id.SRL_diary_content);
-        SRL_diary_content.setOnRefreshListener(onRefreshListener);
         LL_diary_time_information = (LinearLayout) rootView.findViewById(R.id.LL_diary_time_information);
+        LL_diary_time_information.setOnClickListener(this);
 
         TV_diary_month = (TextView) rootView.findViewById(R.id.TV_diary_month);
         TV_diary_date = (TextView) rootView.findViewById(R.id.TV_diary_date);
@@ -94,6 +90,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         TV_diary_time = (TextView) rootView.findViewById(R.id.TV_diary_time);
         TV_diary_location = (TextView) rootView.findViewById(R.id.TV_diary_location);
 
+        SP_diary_weather = (Spinner) rootView.findViewById(R.id.SP_diary_weather);
+        SP_diary_mood = (Spinner) rootView.findViewById(R.id.SP_diary_mood);
 
         EDT_diary_title = (EditText) rootView.findViewById(R.id.EDT_diary_title);
         EDT_diary_content = (EditText) rootView.findViewById(R.id.EDT_diary_content);
@@ -108,6 +106,9 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         IV_diary_save.setOnClickListener(this);
 
         IV_diary_delete.setVisibility(View.GONE);
+
+        initWeatherSpinner();
+        initMoodSpinner();
         updateDiaryInfo();
 
         return rootView;
@@ -128,8 +129,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                            .setTitle("需要你的授權")
-                            .setMessage(message)
+                            .setTitle("Permission")
+                            .setMessage("We need permission to get location name.")
                             .setPositiveButton("ok", null);
                     builder.show();
                 }
@@ -137,38 +138,6 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         }
     }
 
-    private void setCurrentTime() {
-        nowDate = new Date();
-        calendar.setTime(nowDate);
-        TV_diary_month.setText(timeTools.getMonthsFullName()[calendar.get(Calendar.MONTH)]);
-        TV_diary_date.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        TV_diary_day.setText(timeTools.getDaysFullName()[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
-        TV_diary_time.setText(sdf.format(calendar.getTime()));
-    }
-
-    private void clearDiary() {
-        EDT_diary_title.setText("");
-        EDT_diary_content.setText("");
-    }
-
-    private void saveDiary() {
-        DBManager dbManager = new DBManager(getActivity());
-        dbManager.opeDB();
-        dbManager.insetDiary(calendar.getTimeInMillis(),
-                EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
-                0, 0, false, getTopicId());
-        dbManager.closeDB();
-        clearDiary();
-    }
-
-    private void updateDiaryInfo() {
-        setCurrentTime();
-        if (checkPermission(REQUEST_ACCESS_FINE_LOCATION_PERMISSION)) {
-            TV_diary_location.setText(getLocationName());
-        } else {
-            TV_diary_location.setText("No location");
-        }
-    }
 
     private boolean checkPermission(final int requestCode) {
         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -191,11 +160,31 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         return true;
     }
 
+
+    private void updateDiaryInfo() {
+        setCurrentTime();
+        if (checkPermission(REQUEST_ACCESS_FINE_LOCATION_PERMISSION)) {
+            TV_diary_location.setText(getLocationName());
+        } else {
+            TV_diary_location.setText("No location");
+        }
+    }
+
+    private void setCurrentTime() {
+        nowDate = new Date();
+        calendar.setTime(nowDate);
+        TV_diary_month.setText(timeTools.getMonthsFullName()[calendar.get(Calendar.MONTH)]);
+        TV_diary_date.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        TV_diary_day.setText(timeTools.getDaysFullName()[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
+        TV_diary_time.setText(sdf.format(calendar.getTime()));
+    }
+
     private String getLocationName() {
         String returnLocation = "No location";
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         String provider = locationManager.getBestProvider(new Criteria(), true);
         try {
+            //TODO send location request
             Location locations = locationManager.getLastKnownLocation(provider);
             List<String> providerList = locationManager.getAllProviders();
             if (null != locations && null != providerList && providerList.size() > 0) {
@@ -217,25 +206,38 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         return returnLocation;
     }
 
+    private void initWeatherSpinner() {
+        ImageArrayAdapter weatherArrayAdapter = new ImageArrayAdapter(getActivity(), DiaryInfo.getWeatherArray());
+        SP_diary_weather.setAdapter(weatherArrayAdapter);
+    }
 
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            SRL_diary_content.setRefreshing(true);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    SRL_diary_content.setRefreshing(false);
-                    updateDiaryInfo();
-                }
-            }, 2000);
-        }
-    };
+    private void initMoodSpinner() {
+        ImageArrayAdapter moodArrayAdapter = new ImageArrayAdapter(getActivity(), DiaryInfo.getMoodArray());
+        SP_diary_mood.setAdapter(moodArrayAdapter);
+    }
+
+    private void clearDiary() {
+        EDT_diary_title.setText("");
+        EDT_diary_content.setText("");
+    }
+
+    private void saveDiary() {
+        DBManager dbManager = new DBManager(getActivity());
+        dbManager.opeDB();
+        dbManager.insetDiary(calendar.getTimeInMillis(),
+                EDT_diary_title.getText().toString(), EDT_diary_content.getText().toString(),
+                SP_diary_mood.getSelectedItemPosition(), SP_diary_weather.getSelectedItemPosition(), false, getTopicId());
+        dbManager.closeDB();
+        clearDiary();
+    }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.LL_diary_time_information:
+                updateDiaryInfo();
+                break;
             case R.id.IV_diary_clear:
                 clearDiary();
                 break;
