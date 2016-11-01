@@ -164,8 +164,8 @@
                 android:id="@+id/RL_diary_title_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:weightSum="1">
 
                 <EditText
@@ -177,23 +177,50 @@
                     android:inputType="textCapCharacters"
                     android:maxLines="1" />
 
-                <Spinner
-                    android:id="@+id/SP_diary_weather"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:layout_weight="0.15"
-                    android:gravity="center"
-                    android:background="@null" />
+                    android:layout_weight="0.15">
 
-                <Spinner
-                    android:id="@+id/SP_diary_mood"
+                    <ImageView
+                        android:id="@+id/IV_diary_weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"/>
+
+                    <Spinner
+                        android:id="@+id/SP_diary_weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:visibility="gone"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:layout_weight="0.15"
-                    android:gravity="center"
-                    android:background="@null" />
+                    android:layout_weight="0.15">
+
+                    <ImageView
+                        android:id="@+id/IV_diary_mood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/SP_diary_mood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:visibility="gone"
+                        android:gravity="center" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <EditText

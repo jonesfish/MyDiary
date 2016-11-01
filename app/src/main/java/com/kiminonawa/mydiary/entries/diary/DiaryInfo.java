@@ -1,10 +1,6 @@
 package com.kiminonawa.mydiary.entries.diary;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import com.kiminonawa.mydiary.R;
-import com.kiminonawa.mydiary.shared.ViewTools;
 
 /**
  * Created by daxia on 2016/10/31.
@@ -30,29 +26,29 @@ public class DiaryInfo {
     /**
      * Weather
      */
-    public static Drawable getWeathetrDrawable(Context context, int weather) {
-        Drawable drawable = null;
+    public static int getWeathetrResourceId(int weather) {
+        int weatherResourceId;
         switch (weather) {
             default:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_sunny);
+                weatherResourceId = R.drawable.ic_weather_sunny;
                 break;
             case WEATHER_CLOUD:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_cloud);
+                weatherResourceId = R.drawable.ic_weather_cloud;
                 break;
             case WEATHER_WINDY:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_windy);
+                weatherResourceId = R.drawable.ic_weather_windy;
                 break;
             case WEATHER_RAINY:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_rainy);
+                weatherResourceId = R.drawable.ic_weather_rainy;
                 break;
             case WEATHER_SNOWY:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_snowy);
+                weatherResourceId = R.drawable.ic_weather_snowy;
                 break;
             case WEATHER_FOGGY:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_weather_foggy);
+                weatherResourceId = R.drawable.ic_weather_foggy;
                 break;
         }
-        return drawable;
+        return weatherResourceId;
     }
 
 
@@ -66,20 +62,20 @@ public class DiaryInfo {
     /**
      * Mood
      */
-    public static Drawable getMoodDrawable(Context context, int mood) {
-        Drawable drawable = null;
+    public static int getMoodResourceId(int mood) {
+        int moodResourceId;
         switch (mood) {
             default:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_mood_happy);
+                moodResourceId = R.drawable.ic_mood_happy;
                 break;
             case MOOD_SOSO:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_mood_soso);
+                moodResourceId = R.drawable.ic_mood_soso;
                 break;
             case MOOD_UNHAPPY:
-                drawable = ViewTools.getDrawable(context, R.drawable.ic_mood_unhappy);
+                moodResourceId = R.drawable.ic_mood_unhappy;
                 break;
         }
-        return drawable;
+        return moodResourceId;
     }
 
     public static Integer[] getMoodArray() {

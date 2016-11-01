@@ -91,7 +91,9 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         TV_diary_location = (TextView) rootView.findViewById(R.id.TV_diary_location);
 
         SP_diary_weather = (Spinner) rootView.findViewById(R.id.SP_diary_weather);
+        SP_diary_weather.setVisibility(View.VISIBLE);
         SP_diary_mood = (Spinner) rootView.findViewById(R.id.SP_diary_mood);
+        SP_diary_mood.setVisibility(View.VISIBLE);
 
         EDT_diary_title = (EditText) rootView.findViewById(R.id.EDT_diary_title);
         EDT_diary_content = (EditText) rootView.findViewById(R.id.EDT_diary_content);

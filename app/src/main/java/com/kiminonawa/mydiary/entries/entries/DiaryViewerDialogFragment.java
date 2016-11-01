@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
+import com.kiminonawa.mydiary.entries.diary.DiaryInfo;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +45,8 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
      */
 
     private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time;
+    private ImageView IV_diary_weather, IV_diary_mood;
+
     private EditText EDT_diary_title, EDT_diary_content;
     private ImageView IV_diary_delete, IV_diary_clear, IV_diary_save;
 
@@ -76,27 +79,6 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        try {
-            diaryId = getArguments().getLong("diaryId", -1L);
-            if (diaryId != -1) {
-                DBManager dbManager = new DBManager(getActivity());
-                dbManager.opeDB();
-                Cursor diaryCursor = dbManager.selectDiaryByDiaryId(diaryId);
-                EDT_diary_title.setText(diaryCursor.getString(2));
-                EDT_diary_content.setText(diaryCursor.getString(3));
-                setDiaryTime(new Date(diaryCursor.getLong(1)));
-                diaryCursor.close();
-                dbManager.closeDB();
-            }
-        } catch (NullPointerException e) {
-            Log.d("DiaryViewerDialog", e.toString());
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.getDialog().setCanceledOnTouchOutside(false);
@@ -109,6 +91,11 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         TV_diary_date = (TextView) rootView.findViewById(R.id.TV_diary_date);
         TV_diary_day = (TextView) rootView.findViewById(R.id.TV_diary_day);
         TV_diary_time = (TextView) rootView.findViewById(R.id.TV_diary_time);
+
+        IV_diary_weather = (ImageView) rootView.findViewById(R.id.IV_diary_weather);
+        IV_diary_weather.setVisibility(View.VISIBLE);
+        IV_diary_mood = (ImageView) rootView.findViewById(R.id.IV_diary_mood);
+        IV_diary_mood.setVisibility(View.VISIBLE);
 
         IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_delete);
         IV_diary_delete.setOnClickListener(this);
@@ -125,6 +112,27 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try {
+            diaryId = getArguments().getLong("diaryId", -1L);
+            if (diaryId != -1) {
+                DBManager dbManager = new DBManager(getActivity());
+                dbManager.opeDB();
+                Cursor diaryCursor = dbManager.selectDiaryByDiaryId(diaryId);
+                EDT_diary_title.setText(diaryCursor.getString(2));
+                EDT_diary_content.setText(diaryCursor.getString(3));
+                setDiaryTime(new Date(diaryCursor.getLong(1)));
+                setIcon(diaryCursor.getInt(4),diaryCursor.getInt(5));
+                diaryCursor.close();
+                dbManager.closeDB();
+            }
+        } catch (NullPointerException e) {
+            Log.d("DiaryViewerDialog", e.toString());
+        }
+    }
+
     private void setDiaryTime(Date diaryDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(diaryDate);
@@ -135,6 +143,12 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         TV_diary_day.setText(timeTools.getDaysFullName()[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
         TV_diary_time.setText(sdf.format(calendar.getTime()));
     }
+
+    private void setIcon(int mood , int weather) {
+        IV_diary_mood.setImageResource(DiaryInfo.getMoodResourceId(mood));
+        IV_diary_weather.setImageResource(DiaryInfo.getWeathetrResourceId(weather));
+    }
+
 
     public void setCallBack(DiaryViewerCallback callback) {
         this.callback = callback;

@@ -69,10 +69,8 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.EntriesV
         holder.getTVTitle().setText(entriesList.get(position).getTitle());
         holder.getTVSummary().setText(entriesList.get(position).getSummary());
 
-        holder.getIVWeather().setImageDrawable(DiaryInfo.getWeathetrDrawable(mFragment.getActivity(),
-                entriesList.get(position).getWeatherId()));
-        holder.getIVMood().setImageDrawable(DiaryInfo.getMoodDrawable(mFragment.getActivity(),
-                entriesList.get(position).getMoodId()));
+        holder.getIVWeather().setImageResource(DiaryInfo.getWeathetrResourceId(entriesList.get(position).getWeatherId()));
+        holder.getIVMood().setImageResource(DiaryInfo.getMoodResourceId(entriesList.get(position).getMoodId()));
 
         if (entriesList.get(position).hasAttachment()) {
             holder.getIVAttachment().setVisibility(View.VISIBLE);
