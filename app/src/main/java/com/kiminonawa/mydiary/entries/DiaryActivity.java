@@ -48,14 +48,7 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         if (topicId == -1) {
             //TODO close this activity and show toast
         }
-
-        /**
-         * Init Viewpager
-         */
-        ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        ViewPager_diary_content.setAdapter(mPagerAdapter);
-        ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
+        initViewPager();
         /**
          * init UI
          */
@@ -76,6 +69,18 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         TV_diary_topbar_title.setText(diaryTitle);
     }
 
+
+    private void initViewPager() {
+        /**
+         * Init Viewpager
+         */
+        ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
+        //Make viewpager load one fragment every time.
+        //ViewPager_diary_content.setOffscreenPageLimit(1);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        ViewPager_diary_content.setAdapter(mPagerAdapter);
+        ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
+    }
 
     public long getTopicId() {
         return topicId;

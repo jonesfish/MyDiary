@@ -48,7 +48,7 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
     private ImageView IV_diary_weather, IV_diary_mood;
 
     private EditText EDT_diary_title, EDT_diary_content;
-    private ImageView IV_diary_delete, IV_diary_clear, IV_diary_save;
+    private ImageView IV_diary_close_dialog,IV_diary_location,IV_diary_delete, IV_diary_clear, IV_diary_save;
 
     /**
      * Info
@@ -98,6 +98,10 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
         IV_diary_mood = (ImageView) rootView.findViewById(R.id.IV_diary_mood);
         IV_diary_mood.setVisibility(View.VISIBLE);
 
+        IV_diary_close_dialog = (ImageView) rootView.findViewById(R.id.IV_diary_close_dialog);
+        IV_diary_close_dialog.setVisibility(View.VISIBLE);
+        IV_diary_close_dialog.setOnClickListener(this);
+        IV_diary_location = (ImageView) rootView.findViewById(R.id.IV_diary_location);
         IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_delete);
         IV_diary_delete.setOnClickListener(this);
         IV_diary_clear = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
@@ -128,8 +132,10 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
                 String locationNmae = diaryCursor.getString(8);
                 if (locationNmae != null && !"".equals(locationNmae)) {
                     TV_diary_location.setText(locationNmae);
+                    IV_diary_location.setImageResource(R.drawable.ic_location_on_white_24dp);
                 } else {
                     TV_diary_location.setText("No location");
+                    IV_diary_location.setImageResource(R.drawable.ic_location_off_white_24dp);
                 }
                 setIcon(diaryCursor.getInt(4), diaryCursor.getInt(5));
                 diaryCursor.close();
@@ -173,12 +179,14 @@ public class DiaryViewerDialogFragment extends DialogFragment implements View.On
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.IV_diary_close_dialog:
+                dismiss();
+                break;
             case R.id.IV_diary_delete:
                 deleteDiary();
                 callback.deleteDiary();
                 dismiss();
                 break;
         }
-
     }
 }

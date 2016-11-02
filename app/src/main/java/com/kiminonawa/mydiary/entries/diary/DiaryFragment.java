@@ -30,6 +30,7 @@ import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.db.DBManager;
 import com.kiminonawa.mydiary.entries.BaseDiaryFragment;
 import com.kiminonawa.mydiary.entries.DiaryActivity;
+import com.kiminonawa.mydiary.shared.SPFManager;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     private TextView TV_diary_month, TV_diary_date, TV_diary_day, TV_diary_time, TV_diary_location;
     private Spinner SP_diary_weather, SP_diary_mood;
     private EditText EDT_diary_title, EDT_diary_content;
-    private ImageView IV_diary_menu, IV_diary_photo, IV_diary_delete, IV_diary_clear, IV_diary_save;
+    private ImageView IV_diary_menu, IV_diary_location, IV_diary_photo, IV_diary_delete, IV_diary_clear, IV_diary_save;
 
     /**
      * Location
@@ -68,6 +69,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     private LocationManager locationManager;
     private String locationProvider;
     private Handler diaryHandler = new Handler();
+    private boolean isLocation;
     private Runnable updateDiaryRunnable = new Runnable() {
         @Override
         public void run() {
@@ -95,11 +97,14 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         timeTools = TimeTools.getInstance(getActivity().getApplicationContext());
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         locationProvider = LocationManager.NETWORK_PROVIDER;
+        isLocation = SPFManager.getDiaryLocation(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e("Test","onCreateView");
+
         View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
 
         LL_diary_time_information = (LinearLayout) rootView.findViewById(R.id.LL_diary_time_information);
@@ -122,6 +127,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
 
         IV_diary_menu = (ImageView) rootView.findViewById(R.id.IV_diary_menu);
+        IV_diary_location = (ImageView) rootView.findViewById(R.id.IV_diary_location);
+        IV_diary_location.setOnClickListener(this);
         IV_diary_photo = (ImageView) rootView.findViewById(R.id.IV_diary_photo);
         IV_diary_delete = (ImageView) rootView.findViewById(R.id.IV_diary_delete);
         IV_diary_clear = (ImageView) rootView.findViewById(R.id.IV_diary_clear);
@@ -131,6 +138,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
         IV_diary_delete.setVisibility(View.GONE);
 
+        initLocationIcon();
         initWeatherSpinner();
         initMoodSpinner();
 
@@ -139,12 +147,19 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Log.e("Test","onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        initDiaryInfo(true);
+    }
+
+    @Override
+    public void onStart() {
+        Log.e("Test","onStart");
+        super.onStart();
     }
 
     @Override
     public void onResume() {
+        Log.e("Test","onResume");
         super.onResume();
     }
 
@@ -194,20 +209,26 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
 
     private void initDiaryInfo(boolean showRefreshing) {
-        if (showRefreshing) {
-            diaryHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    SRL_diary_content.setRefreshing(true);
-                }
-            });
-        }
-        if (checkPermission(REQUEST_ACCESS_FINE_LOCATION_PERMISSION)) {
-            if (locationManager.isProviderEnabled(locationProvider)) {
-                locationManager.requestLocationUpdates(locationProvider, 3000, 0, this);
+        if (isLocation && locationManager.isProviderEnabled(locationProvider)) {
+            if (showRefreshing) {
+                diaryHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        SRL_diary_content.setRefreshing(true);
+                    }
+                });
             }
-            //Waiting gps max timeout is 20s
-            diaryHandler.postDelayed(updateDiaryRunnable, 20000);
+            if (checkPermission(REQUEST_ACCESS_FINE_LOCATION_PERMISSION)) {
+                if (locationManager.isProviderEnabled(locationProvider)) {
+                    locationManager.requestLocationUpdates(locationProvider, 3000, 0, this);
+                }
+                //Waiting gps max timeout is 20s
+                diaryHandler.postDelayed(updateDiaryRunnable, 20000);
+            }
+        } else {
+            setCurrentTime();
+            TV_diary_location.setText("No location");
+            SRL_diary_content.setRefreshing(false);
         }
     }
 
@@ -255,6 +276,19 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         return returnLocation;
     }
 
+    private void initLocationIcon() {
+        if (isLocation) {
+            IV_diary_location.setImageResource(R.drawable.ic_location_on_white_24dp);
+            initDiaryInfo(true);
+        } else {
+            SRL_diary_content.setRefreshing(false);
+            diaryHandler.removeCallbacksAndMessages(null);
+            IV_diary_location.setImageResource(R.drawable.ic_location_off_white_24dp);
+            setCurrentTime();
+            TV_diary_location.setText("No location");
+        }
+    }
+
     private void initWeatherSpinner() {
         ImageArrayAdapter weatherArrayAdapter = new ImageArrayAdapter(getActivity(), DiaryInfo.getWeatherArray());
         SP_diary_weather.setAdapter(weatherArrayAdapter);
@@ -287,8 +321,12 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
+            case R.id.IV_diary_location:
+                isLocation = !isLocation;
+                SPFManager.setDiaryLocation(getActivity(), isLocation);
+                initLocationIcon();
+                break;
             case R.id.IV_diary_clear:
                 clearDiary();
                 break;
@@ -296,6 +334,8 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                 if (EDT_diary_title.length() > 0 && EDT_diary_content.length() > 0) {
                     saveDiary();
                     ((DiaryActivity) getActivity()).gotoPage(0);
+                } else if (SRL_diary_content.isRefreshing()) {
+                    Toast.makeText(getActivity(), "Waiting Refresh end!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Diary is empty!", Toast.LENGTH_SHORT).show();
                 }
