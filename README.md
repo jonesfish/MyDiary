@@ -23,9 +23,10 @@ so , maybe I will try to create iOS version after this app is running.
 
  **Work:**
 * Add topic
+* Delete topic
 * Show diary lsit
-* add diary
-* delete diary
+* Add diary
+* Delete diary
 * Change date in calendar page (page curl effect not ready)
 
 
@@ -50,6 +51,11 @@ Designing.
 ![](/screenshot/s_4.png)
 ![](/screenshot/s_5.png)
 ![](/screenshot/s_6.png)
+
+
+# Apk
+[![](/screenshot/google-play-badge.png) ](https://play.google.com/store/apps/details?id=com.kiminonawa.mydiary)
+
 
 ## License
 

@@ -20,7 +20,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="5dp"
         android:alpha="0.9"
         android:background="@drawable/rv_entries_item_bg"
         android:paddingBottom="10dp"
@@ -75,7 +75,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:padding="2dp"
-                        android:src="@drawable/ic_weather_sun"
+                        android:src="@drawable/ic_weather_sunny"
                         android:tint="@color/themeColor" />
 
                     <ImageView

@@ -12,14 +12,19 @@ public class EntriesEntity {
     private Date createDate;
     private String title;
     private String summary;
+    private int weatherId;
+    private int moodId;
     private boolean hasAttachment;
 
 
-    public EntriesEntity(long id, Date createDate, String title, String summary, boolean hasAttachment) {
+    public EntriesEntity(long id, Date createDate, String title, String summary,
+                         int weatherId, int moodId, boolean hasAttachment) {
         this.id = id;
         this.createDate = createDate;
         this.title = title;
         this.summary = summary;
+        this.weatherId = weatherId;
+        this.moodId = moodId;
         this.hasAttachment = hasAttachment;
     }
 
@@ -42,4 +47,14 @@ public class EntriesEntity {
     public boolean hasAttachment() {
         return hasAttachment;
     }
+
+    public int getWeatherId() {
+        return weatherId;
+    }
+
+    public int getMoodId() {
+        return moodId;
+    }
+
+
 }

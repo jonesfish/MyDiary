@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import static com.kiminonawa.mydiary.db.DiaryStructure.DiaryEntry;
-import static com.kiminonawa.mydiary.db.DiaryStructure.TopicEntry;
+import static com.kiminonawa.mydiary.db.DBStructure.DiaryEntry;
+import static com.kiminonawa.mydiary.db.DBStructure.TopicEntry;
 
 /**
  * Created by daxia on 2016/4/2.
@@ -60,6 +60,13 @@ public class DBManager {
         return c;
     }
 
+    public long delTopic(long topicId) {
+        return db.delete(
+                TopicEntry.TABLE_NAME,
+                TopicEntry._ID + " = ?"
+                , new String[]{String.valueOf(topicId)});
+    }
+
     private ContentValues createTopicCV(String name, int type) {
         ContentValues values = new ContentValues();
         values.put(TopicEntry.COLUMN_NAME, name);
@@ -72,12 +79,12 @@ public class DBManager {
      * Diary
      */
     public long insetDiary(long time, String title, String content,
-                           int mood, int weather, boolean attachment, long refTopicId) {
+                           int mood, int weather, boolean attachment, long refTopicId , String locationName) {
         return db.insert(
                 DiaryEntry.TABLE_NAME,
                 null,
                 this.createDiaryCV(time, title, content,
-                        mood, weather, attachment, refTopicId));
+                        mood, weather, attachment, refTopicId,locationName));
     }
 
     public long delDiary(long diaryId) {
@@ -85,6 +92,13 @@ public class DBManager {
                 DiaryEntry.TABLE_NAME,
                 DiaryEntry._ID + " = ?"
                 , new String[]{String.valueOf(diaryId)});
+    }
+
+    public long delAllDiaryInTopic(long topicId) {
+        return db.delete(
+                DiaryEntry.TABLE_NAME,
+                DiaryEntry.COLUMN_REF_TOPIC__ID + " = ?"
+                , new String[]{String.valueOf(topicId)});
     }
 
 
@@ -106,7 +120,8 @@ public class DBManager {
     }
 
     private ContentValues createDiaryCV(long time, String title, String content,
-                                        int mood, int weather, boolean attachment, long refTopicId) {
+                                        int mood, int weather, boolean attachment, long refTopicId,
+                                        String  locationName) {
         ContentValues values = new ContentValues();
         values.put(DiaryEntry.COLUMN_TIME, time);
         values.put(DiaryEntry.COLUMN_TITLE, title);
@@ -115,6 +130,7 @@ public class DBManager {
         values.put(DiaryEntry.COLUMN_WEATHER, weather);
         values.put(DiaryEntry.COLUMN_ATTACHMENT, attachment);
         values.put(DiaryEntry.COLUMN_REF_TOPIC__ID, refTopicId);
+        values.put(DiaryEntry.COLUMN_LOCATION, locationName);
         return values;
     }
 

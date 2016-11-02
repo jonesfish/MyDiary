@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.kiminonawa.mydiary.db.DBManager;
+import com.kiminonawa.mydiary.entries.diary.DiaryInfo;
 import com.kiminonawa.mydiary.main.MainActivity;
 import com.kiminonawa.mydiary.main.topic.ITopic;
 import com.kiminonawa.mydiary.shared.SPFManager;
@@ -13,7 +14,7 @@ import com.kiminonawa.mydiary.shared.SPFManager;
 public class InitActivity extends Activity {
 
 
-    private int initTime = 1000; // 3S
+    private int initTime = 3000; // 3S
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,13 @@ public class InitActivity extends Activity {
 
             dbManager.insetDiary(1475665800000L, "東京生活3❤",
                     "There are many coffee shop in Tokyo!",
-                    0, 0, true, 3);
+                    DiaryInfo.MOOD_HAPPY, DiaryInfo.WEATHER_RAINY, true, 3, "Tokyo");
             dbManager.insetDiary(1475241600000L, "No Title",
                     "My name is TAKI , I am a man!",
-                    0, 0, true, 3);
+                    DiaryInfo.MOOD_SOSO, DiaryInfo.WEATHER_SUNNY, true, 3, "Itomori");
             dbManager.insetDiary(1475144400000L, "東京生活2",
-                    "Today is second day , I like tokyo!",
-                    0, 0, false, 3);
+                    "Today is second day , I like Tokyo!",
+                    DiaryInfo.MOOD_UNHAPPY, DiaryInfo.WEATHER_CLOUD, false, 3, "Tokyo");
 
             dbManager.closeDB();
             SPFManager.setFirstRun(InitActivity.this, false);

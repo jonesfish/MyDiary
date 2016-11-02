@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.kiminonawa.mydiary.R;
 import com.kiminonawa.mydiary.entries.calendar.CalendarFragment;
@@ -27,6 +28,7 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
      */
     private LinearLayout LL_diary_topbar_content;
     private ViewPager ViewPager_diary_content;
+    private TextView TV_diary_topbar_title;
     private SegmentedGroup SG_diary_topbar;
     private RadioButton But_diary_topbar_entries, But_diary_topbar_calendar, But_diary_topbar_diary;
 
@@ -46,14 +48,7 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         if (topicId == -1) {
             //TODO close this activity and show toast
         }
-
-        /**
-         * Init Viewpager
-         */
-        ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        ViewPager_diary_content.setAdapter(mPagerAdapter);
-        ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
+        initViewPager();
         /**
          * init UI
          */
@@ -65,9 +60,27 @@ public class DiaryActivity extends FragmentActivity implements RadioGroup.OnChec
         But_diary_topbar_diary = (RadioButton) findViewById(R.id.But_diary_topbar_diary);
         But_diary_topbar_entries.setChecked(true);
 
+        TV_diary_topbar_title = (TextView) findViewById(R.id.TV_diary_topbar_title);
 
+        String diaryTitle = getIntent().getStringExtra("diaryTitle");
+        if (diaryTitle == null) {
+            diaryTitle = "Diary";
+        }
+        TV_diary_topbar_title.setText(diaryTitle);
     }
 
+
+    private void initViewPager() {
+        /**
+         * Init Viewpager
+         */
+        ViewPager_diary_content = (ViewPager) findViewById(R.id.ViewPager_diary_content);
+        //Make viewpager load one fragment every time.
+        //ViewPager_diary_content.setOffscreenPageLimit(1);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        ViewPager_diary_content.setAdapter(mPagerAdapter);
+        ViewPager_diary_content.addOnPageChangeListener(onPageChangeListener);
+    }
 
     public long getTopicId() {
         return topicId;
