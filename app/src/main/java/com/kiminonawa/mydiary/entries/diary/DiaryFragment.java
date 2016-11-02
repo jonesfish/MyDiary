@@ -285,7 +285,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     private void saveDiary() {
         String locationName = TV_diary_location.getText().toString();
-        if (locationName == null || noLocation.equals(locationName)) {
+        if (noLocation.equals(locationName)) {
             locationName = "";
         }
         DBManager dbManager = new DBManager(getActivity());
