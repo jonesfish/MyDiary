@@ -10,12 +10,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +34,7 @@ import com.kiminonawa.mydiary.shared.SPFManager;
 import com.kiminonawa.mydiary.shared.TimeTools;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,18 +66,12 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     /**
      * Location
      */
+    private String noLocation;
     private Location diaryLocations = null;
     private LocationManager locationManager;
     private String locationProvider;
-    private Handler diaryHandler = new Handler();
+    private DiaryHandler diaryHandler = new DiaryHandler(this);
     private boolean isLocation;
-    private Runnable updateDiaryRunnable = new Runnable() {
-        @Override
-        public void run() {
-            updateDiaryInfo();
-            SRL_diary_content.setRefreshing(false);
-        }
-    };
     /**
      * Permission
      */
@@ -98,13 +93,12 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         locationProvider = LocationManager.NETWORK_PROVIDER;
         isLocation = SPFManager.getDiaryLocation(getActivity());
+        noLocation = getActivity().getString(R.string.diary_no_location);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("Test","onCreateView");
-
         View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
 
         LL_diary_time_information = (LinearLayout) rootView.findViewById(R.id.LL_diary_time_information);
@@ -137,30 +131,48 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         IV_diary_save.setOnClickListener(this);
 
         IV_diary_delete.setVisibility(View.GONE);
-
-        initLocationIcon();
-        initWeatherSpinner();
-        initMoodSpinner();
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.e("Test","onViewCreated");
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initLocationIcon();
+        initWeatherSpinner();
+        initMoodSpinner();
+    }
+
+    @Override
     public void onStart() {
-        Log.e("Test","onStart");
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        Log.e("Test","onResume");
         super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (locationManager != null) {
+            try {
+                locationManager.removeUpdates(this);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        diaryHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -173,13 +185,13 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                     initDiaryInfo(true);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                            .setTitle("Permission")
-                            .setMessage("We need permission to get location name.")
-                            .setPositiveButton("ok", null);
+                            .setTitle(getString(R.string.diary_location_permission_title))
+                            .setMessage(getString(R.string.diary_location_permission_content))
+                            .setPositiveButton(getString(R.string.dialog_button_ok), null);
                     builder.show();
                     SRL_diary_content.setRefreshing(false);
                     setCurrentTime();
-                    TV_diary_location.setText("No location");
+                    TV_diary_location.setText(noLocation);
                 }
                 break;
         }
@@ -223,20 +235,15 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                     locationManager.requestLocationUpdates(locationProvider, 3000, 0, this);
                 }
                 //Waiting gps max timeout is 20s
-                diaryHandler.postDelayed(updateDiaryRunnable, 20000);
+                diaryHandler.sendEmptyMessageDelayed(0, 20000);
             }
         } else {
             setCurrentTime();
-            TV_diary_location.setText("No location");
+            TV_diary_location.setText(noLocation);
             SRL_diary_content.setRefreshing(false);
         }
     }
 
-
-    private void updateDiaryInfo() {
-        setCurrentTime();
-        TV_diary_location.setText(getLocationName());
-    }
 
     private void setCurrentTime() {
         nowDate = new Date();
@@ -247,34 +254,6 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         TV_diary_time.setText(sdf.format(calendar.getTime()));
     }
 
-    private String getLocationName() {
-        String returnLocation = "No location";
-        if (diaryLocations == null) {
-            try {
-                diaryLocations = locationManager.getLastKnownLocation(locationProvider);
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        }
-        List<String> providerList = locationManager.getAllProviders();
-        try {
-            if (null != diaryLocations && null != providerList && providerList.size() > 0) {
-                double longitude = diaryLocations.getLongitude();
-                double latitude = diaryLocations.getLatitude();
-                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-
-                List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
-                if (null != listAddresses && listAddresses.size() > 0) {
-                    returnLocation = listAddresses.get(0).getAddressLine(0);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            diaryLocations = null;
-        }
-        return returnLocation;
-    }
 
     private void initLocationIcon() {
         if (isLocation) {
@@ -285,7 +264,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
             diaryHandler.removeCallbacksAndMessages(null);
             IV_diary_location.setImageResource(R.drawable.ic_location_off_white_24dp);
             setCurrentTime();
-            TV_diary_location.setText("No location");
+            TV_diary_location.setText(noLocation);
         }
     }
 
@@ -306,7 +285,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     private void saveDiary() {
         String locationName = TV_diary_location.getText().toString();
-        if (locationName == null || "No location".equals(locationName)) {
+        if (noLocation.equals(locationName)) {
             locationName = "";
         }
         DBManager dbManager = new DBManager(getActivity());
@@ -335,9 +314,9 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                     saveDiary();
                     ((DiaryActivity) getActivity()).gotoPage(0);
                 } else if (SRL_diary_content.isRefreshing()) {
-                    Toast.makeText(getActivity(), "Waiting Refresh end!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_refashioning), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Diary is empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_diary_empty), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -351,10 +330,10 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("test", "onLocationCganged");
+//        Log.d("test", "onLocationCganged");
         diaryLocations = new Location(location);
         diaryHandler.removeCallbacksAndMessages(null);
-        diaryHandler.post(updateDiaryRunnable);
+        diaryHandler.sendEmptyMessage(0);
         try {
             locationManager.removeUpdates(this);
         } catch (SecurityException e) {
@@ -375,5 +354,52 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    private static class DiaryHandler extends Handler {
+
+        private WeakReference<DiaryFragment> mFrag;
+
+        DiaryHandler(DiaryFragment aFragment) {
+            mFrag = new WeakReference<>(aFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            DiaryFragment theFrag = mFrag.get();
+            if (theFrag != null) {
+                theFrag.setCurrentTime();
+                theFrag.TV_diary_location.setText(getLocationName(theFrag));
+                theFrag.SRL_diary_content.setRefreshing(false);
+            }
+        }
+
+        private String getLocationName(DiaryFragment theFrag) {
+            String returnLocation = theFrag.noLocation;
+            if (theFrag.diaryLocations == null) {
+                try {
+                    theFrag.diaryLocations = theFrag.locationManager.getLastKnownLocation(theFrag.locationProvider);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+            List<String> providerList = theFrag.locationManager.getAllProviders();
+            try {
+                if (null != theFrag.diaryLocations && null != providerList && providerList.size() > 0) {
+                    double longitude = theFrag.diaryLocations.getLongitude();
+                    double latitude = theFrag.diaryLocations.getLatitude();
+                    Geocoder geocoder = new Geocoder(theFrag.getActivity().getApplicationContext(), Locale.getDefault());
+                    List<Address> listAddresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    if (null != listAddresses && listAddresses.size() > 0) {
+                        returnLocation = listAddresses.get(0).getAddressLine(0);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                theFrag.diaryLocations = null;
+            }
+            return returnLocation;
+        }
     }
 }
