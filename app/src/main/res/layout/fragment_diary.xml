@@ -210,7 +210,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:hint="Diary title"
+                    android:hint="@string/diary_title_hint"
                     android:inputType="textCapCharacters"
                     android:maxLines="1" />
 
@@ -266,7 +266,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:gravity="top|left"
-                android:hint="Write your diary here."
+                android:hint="@string/diary_content_hint"
                 android:padding="2dp" />
         </LinearLayout>
 

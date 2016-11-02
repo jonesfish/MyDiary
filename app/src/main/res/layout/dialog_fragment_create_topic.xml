@@ -24,7 +24,7 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Topic" />
+                android:text="@string/topic_create_name" />
 
             <EditText
                 android:id="@+id/EDT_topic_create_name"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/Space_topic_create"
                 android:gravity="center"
-                android:text="cancel"
+                android:text="@string/dialog_button_cancel"
                 android:textAllCaps="false" />
 
             <Button
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/Space_topic_create"
                 android:gravity="center"
-                android:text="Ok"
+                android:text="@string/dialog_button_ok"
                 android:textAllCaps="false" />
         </RelativeLayout>
     </LinearLayout>

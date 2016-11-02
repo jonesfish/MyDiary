@@ -65,6 +65,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     /**
      * Location
      */
+    private String noLocation;
     private Location diaryLocations = null;
     private LocationManager locationManager;
     private String locationProvider;
@@ -98,13 +99,12 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         locationProvider = LocationManager.NETWORK_PROVIDER;
         isLocation = SPFManager.getDiaryLocation(getActivity());
+        noLocation = getActivity().getString(R.string.diary_no_location);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("Test","onCreateView");
-
         View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
 
         LL_diary_time_information = (LinearLayout) rootView.findViewById(R.id.LL_diary_time_information);
@@ -147,19 +147,16 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.e("Test","onViewCreated");
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onStart() {
-        Log.e("Test","onStart");
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        Log.e("Test","onResume");
         super.onResume();
     }
 
@@ -173,13 +170,13 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                     initDiaryInfo(true);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                            .setTitle("Permission")
-                            .setMessage("We need permission to get location name.")
-                            .setPositiveButton("ok", null);
+                            .setTitle(getString(R.string.diary_location_permission_title))
+                            .setMessage(getString(R.string.diary_location_permission_content))
+                            .setPositiveButton(getString(R.string.dialog_button_ok), null);
                     builder.show();
                     SRL_diary_content.setRefreshing(false);
                     setCurrentTime();
-                    TV_diary_location.setText("No location");
+                    TV_diary_location.setText(noLocation);
                 }
                 break;
         }
@@ -227,7 +224,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
             }
         } else {
             setCurrentTime();
-            TV_diary_location.setText("No location");
+            TV_diary_location.setText(noLocation);
             SRL_diary_content.setRefreshing(false);
         }
     }
@@ -248,7 +245,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
     }
 
     private String getLocationName() {
-        String returnLocation = "No location";
+        String returnLocation = noLocation;
         if (diaryLocations == null) {
             try {
                 diaryLocations = locationManager.getLastKnownLocation(locationProvider);
@@ -285,7 +282,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
             diaryHandler.removeCallbacksAndMessages(null);
             IV_diary_location.setImageResource(R.drawable.ic_location_off_white_24dp);
             setCurrentTime();
-            TV_diary_location.setText("No location");
+            TV_diary_location.setText(noLocation);
         }
     }
 
@@ -306,7 +303,7 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
 
     private void saveDiary() {
         String locationName = TV_diary_location.getText().toString();
-        if (locationName == null || "No location".equals(locationName)) {
+        if (locationName == null || noLocation.equals(locationName)) {
             locationName = "";
         }
         DBManager dbManager = new DBManager(getActivity());
@@ -335,9 +332,9 @@ public class DiaryFragment extends BaseDiaryFragment implements View.OnClickList
                     saveDiary();
                     ((DiaryActivity) getActivity()).gotoPage(0);
                 } else if (SRL_diary_content.isRefreshing()) {
-                    Toast.makeText(getActivity(), "Waiting Refresh end!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_refashioning), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Diary is empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.toast_diary_empty), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

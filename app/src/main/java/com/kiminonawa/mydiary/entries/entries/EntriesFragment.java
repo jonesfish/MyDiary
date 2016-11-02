@@ -82,7 +82,8 @@ public class EntriesFragment extends BaseDiaryFragment implements DiaryViewerDia
     }
 
     private void countEntries() {
-        TV_entries_count.setText(entriesList.size() + " Entries");
+        TV_entries_count.setText(
+                String.format(getResources().getString(R.string.entries_count), entriesList.size()));
     }
 
     @Override
