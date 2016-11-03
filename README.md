@@ -29,6 +29,22 @@ so , maybe I will try to create iOS version after this app is running.
 * Delete diary
 * Change date in calendar page (page curl effect not ready)
 
+## Schedule
+
+This list is what function I wil finish , the number is  sequence for coding.
+
+1. Add diary in mood
+2. add diary in weather
+3. add location in diary
+4. Optimized diry viewpager 
+5. Create memo
+6. Allow edit topic , diary
+7. Allow order for topic , memo
+8. Add bookmark for diary
+9. Add web block in diary
+10. Add photo in diary
+11. Create contacts
+12. Add music in diary
 
 ## Usecase
 
